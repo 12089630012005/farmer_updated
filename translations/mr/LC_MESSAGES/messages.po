@@ -1,0 +1,392 @@
+# Marathi translations for Farming Support System
+# Copyright (C) 2025
+# This file is distributed under the same license as the PROJECT project.
+msgid ""
+msgstr ""
+"Project-Id-Version: Farming Support System 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-16 01:27+0530\n"
+"PO-Revision-Date: 2025-10-16 01:30+0530\n"
+"Last-Translator: \n"
+"Language: mr\n"
+"Language-Team: mr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "FarmSupport Pro"
+msgstr "फार्म सपोर्ट प्रो"
+
+msgid "Home"
+msgstr "मुख्यपृष्ठ"
+
+msgid "Farmers"
+msgstr "शेतकरी"
+
+msgid "Crops"
+msgstr "पिके"
+
+msgid "Queries"
+msgstr "प्रश्न"
+
+msgid "Equipment"
+msgstr "उपकरणे"
+
+msgid "Lending"
+msgstr "कर्ज देणे"
+
+msgid "Reviews"
+msgstr "पुनरावलोकने"
+
+msgid "Login"
+msgstr "लॉगिन"
+
+msgid "Grow Better. Together."
+msgstr "चांगले वाढवा. एकत्र."
+
+msgid "Knowledge, equipment, and support for every farmer — all in one place."
+msgstr "प्रत्येक शेतकऱ्यासाठी ज्ञान, उपकरणे आणि सहाय्य — सर्व एका ठिकाणी."
+
+msgid "Join Community"
+msgstr "समुदायात सामील व्हा"
+
+msgid "Ask a Query"
+msgstr "प्रश्न विचारा"
+
+msgid "Farmers Community"
+msgstr "शेतकरी समुदाय"
+
+msgid "🔍 Search farmers..."
+msgstr "🔍 शेतकरी शोधा..."
+
+msgid "All Locations"
+msgstr "सर्व ठिकाणे"
+
+msgid "Crop Types"
+msgstr "पिकांचे प्रकार"
+
+msgid "Add New Crop Type"
+msgstr "नवीन पीक प्रकार जोडा"
+
+msgid "Crop Name"
+msgstr "पिकाचे नाव"
+
+msgid "Category"
+msgstr "श्रेणी"
+
+msgid "Select Category"
+msgstr "श्रेणी निवडा"
+
+msgid "Grains"
+msgstr "धान्ये"
+
+msgid "Vegetables"
+msgstr "भाज्या"
+
+msgid "Fruits"
+msgstr "फळे"
+
+msgid "Legumes"
+msgstr "शेंगा"
+
+msgid "Pulses"
+msgstr "डाळी"
+
+msgid "Cash Crops"
+msgstr "नगदी पिके"
+
+msgid "Oilseeds"
+msgstr "तेलबिया"
+
+msgid "Spices"
+msgstr "मसाले"
+
+msgid "Flowers"
+msgstr "फुले"
+
+msgid "Fiber"
+msgstr "तंतू"
+
+msgid "Plantation"
+msgstr "वृक्षारोपण"
+
+msgid "Medicinal"
+msgstr "औषधी"
+
+msgid "Fodder"
+msgstr "चारा"
+
+msgid "Add Crop"
+msgstr "पीक जोडा"
+
+msgid "Farmer Queries"
+msgstr "शेतकरी प्रश्न"
+
+msgid "Post New Query"
+msgstr "नवीन प्रश्न पोस्ट करा"
+
+msgid "Title"
+msgstr "शीर्षक"
+
+msgid "Crop Type"
+msgstr "पिकाचा प्रकार"
+
+msgid "Select Crop"
+msgstr "पीक निवडा"
+
+msgid "Description"
+msgstr "वर्णन"
+
+msgid "Image"
+msgstr "प्रतिमा"
+
+msgid "Post Query"
+msgstr "प्रश्न पोस्ट करा"
+
+msgid "Search queries..."
+msgstr "प्रश्न शोधा..."
+
+msgid "All Crops"
+msgstr "सर्व पिके"
+
+msgid "Add New Equipment"
+msgstr "नवीन उपकरणे जोडा"
+
+msgid "Equipment Name"
+msgstr "उपकरणाचे नाव"
+
+msgid "Type"
+msgstr "प्रकार"
+
+msgid "Select Type"
+msgstr "प्रकार निवडा"
+
+msgid "Tractor"
+msgstr "ट्रॅक्टर"
+
+msgid "Harvester"
+msgstr "कापणी यंत्र"
+
+msgid "Plough"
+msgstr "नांगर"
+
+msgid "Sprayer"
+msgstr "फवारणी यंत्र"
+
+msgid "Thresher"
+msgstr "मळणी यंत्र"
+
+msgid "Cultivator"
+msgstr "कुळव यंत्र"
+
+msgid "Seeder"
+msgstr "बियाणे पेरणी यंत्र"
+
+msgid "Rotavator"
+msgstr "रोटाव्हेटर"
+
+msgid "Irrigation Pump"
+msgstr "सिंचन पंप"
+
+msgid "Trailer"
+msgstr "ट्रेलर"
+
+msgid "Baler"
+msgstr "गाठ बांधणी यंत्र"
+
+msgid "Combine"
+msgstr "कंबाइन"
+
+msgid "Power Tiller"
+msgstr "पॉवर टिलर"
+
+msgid "Drone Sprayer"
+msgstr "ड्रोन फवारणी यंत्र"
+
+msgid "Weeder"
+msgstr "तण काढणी यंत्र"
+
+msgid "Sprinkler"
+msgstr "स्प्रिंकलर"
+
+msgid "Condition"
+msgstr "स्थिती"
+
+msgid "Select Condition"
+msgstr "स्थिती निवडा"
+
+msgid "Excellent"
+msgstr "उत्कृष्ट"
+
+msgid "Good"
+msgstr "साधारण"
+
+msgid "Fair"
+msgstr "ठीक आहे"
+
+msgid "Hourly Rate (₹)"
+msgstr "तासाभराचा दर (₹)"
+
+msgid "Availability"
+msgstr "उपलब्धता"
+
+msgid "Available"
+msgstr "उपलब्ध"
+
+msgid "Unavailable"
+msgstr "अनुपलब्ध"
+
+msgid "Add Equipment"
+msgstr "उपकरणे जोडा"
+
+msgid "Search equipment..."
+msgstr "उपकरणे शोधा..."
+
+msgid "All Types"
+msgstr "सर्व प्रकार"
+
+msgid "My Equipment"
+msgstr "माझी उपकरणे"
+
+msgid "Available from Others"
+msgstr "इतरांकडून उपलब्ध"
+
+msgid "Login / Profile"
+msgstr "लॉगिन / प्रोफाइल"
+
+msgid "Sign In or Create Account"
+msgstr "साइन इन करा किंवा खाते तयार करा"
+
+msgid "Email"
+msgstr "ई-मेल"
+
+msgid "Password"
+msgstr "पासवर्ड"
+
+msgid "Sign Up"
+msgstr "साइन अप करा"
+
+msgid "Your Profile"
+msgstr "तुमची प्रोफाइल"
+
+msgid "Name"
+msgstr "नाव"
+
+msgid "Location"
+msgstr "स्थान"
+
+msgid "Phone"
+msgstr "फोन"
+
+msgid "Language"
+msgstr "भाषा"
+
+msgid "Select Language"
+msgstr "भाषा निवडा"
+
+msgid "Field Size (acres)"
+msgstr "शेताचे क्षेत्रफळ (एकर)"
+
+msgid "Save Profile"
+msgstr "प्रोफाइल जतन करा"
+
+msgid "Logout"
+msgstr "लॉगआउट"
+
+msgid "Saved Details"
+msgstr "जतन केलेले तपशील"
+
+msgid "Equipment Lending"
+msgstr "उपकरणे उधारी"
+
+msgid "Request Equipment"
+msgstr "उपकरणाची विनंती करा"
+
+msgid "Equipment"
+msgstr "उपकरण"
+
+msgid "Select Equipment"
+msgstr "उपकरण निवडा"
+
+msgid "Borrower"
+msgstr "उधारकर्ता"
+
+msgid "Auto-set to your account"
+msgstr "तुमच्या खात्यात स्वयंचलित सेट"
+
+msgid "Start Date"
+msgstr "प्रारंभ तारीख"
+
+msgid "dd-mm-yyyy"
+msgstr "dd-mm-yyyy"
+
+msgid "Duration (days)"
+msgstr "कालावधी (दिवस)"
+
+msgid "Submit Request"
+msgstr "विनंती सबमिट करा"
+
+msgid "My Requests (Borrowing)"
+msgstr "माझ्या विनंती (उधार घेणे)"
+
+msgid "No requests yet."
+msgstr "अद्याप कोणतीही विनंती नाही."
+
+msgid "Requests for My Equipment (Lending)"
+msgstr "माझ्या उपकरणांसाठी विनंती (उधार देणे)"
+
+msgid "Reviews & Feedback"
+msgstr "समीक्षा आणि अभिप्राय"
+
+msgid "Add Review"
+msgstr "समीक्षा जोडा"
+
+msgid "From (Reviewer)"
+msgstr "पासून (समीक्षक)"
+
+msgid "To (Review Target)"
+msgstr "ला (समीक्षा लक्ष्य)"
+
+msgid "Select Farmer"
+msgstr "शेतकरी निवडा"
+
+msgid "Type"
+msgstr "प्रकार"
+
+msgid "Farmer"
+msgstr "शेतकरी"
+
+msgid "Rating"
+msgstr "रेटिंग"
+
+msgid "Feedback"
+msgstr "अभिप्राय"
+
+msgid "Submit Review"
+msgstr "समीक्षा सबमिट करा"
+
+msgid "Voice Query"
+msgstr "आवाज प्रश्न"
+
+msgid "Start Recording"
+msgstr "रेकॉर्डिंग सुरू करा"
+
+msgid "Clear"
+msgstr "साफ करा"
+
+msgid "Click the microphone to record your query in your preferred language"
+msgstr "तुमच्या पसंतीच्या भाषेत प्रश्न रेकॉर्ड करण्यासाठी मायक्रोफोनवर क्लिक करा"
+
+msgid "Enter your name in your preferred language"
+msgstr "तुमच्या पसंतीच्या भाषेत तुमचे नाव प्रविष्ट करा"
+
+msgid "Enter your location in your preferred language"
+msgstr "तुमच्या पसंतीच्या भाषेत तुमचे स्थान प्रविष्ट करा"
+
+msgid "Describe your query in your preferred language"
+msgstr "तुमच्या पसंतीच्या भाषेत तुमचा प्रश्न वर्णन करा"
+
+msgid "Enter query title in your preferred language"
+msgstr "तुमच्या पसंतीच्या भाषेत प्रश्न शीर्षक प्रविष्ट करा"

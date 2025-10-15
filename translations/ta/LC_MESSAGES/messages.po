@@ -1,0 +1,800 @@
+# Tamil translations for Farming Support System
+# Copyright (C) 2025
+# This file is distributed under the same license as the Farming Support
+# System project.
+msgid ""
+msgstr ""
+"Project-Id-Version: Farming Support System 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-16 01:49+0530\n"
+"PO-Revision-Date: 2025-10-16 01:30+0530\n"
+"Last-Translator: \n"
+"Language: ta\n"
+"Language-Team: ta <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: app.py:619
+#, python-format
+msgid "%s is required"
+msgstr ""
+
+#: app.py:629
+#, fuzzy
+msgid "Equipment not found"
+msgstr "உபகரண பெயர்"
+
+#: app.py:634
+msgid "Owner cannot borrow own equipment"
+msgstr ""
+
+#: app.py:652
+msgid "Lending request added successfully"
+msgstr ""
+
+#: app.py:656
+#, python-format
+msgid "Error adding lending request: %s"
+msgstr ""
+
+#: app.py:705
+msgid "RequestID and status are required"
+msgstr ""
+
+#: app.py:709
+msgid "Invalid status"
+msgstr ""
+
+#: app.py:718
+msgid "Lending request updated"
+msgstr ""
+
+#: app.py:721
+#, python-format
+msgid "Error updating lending request: %s"
+msgstr ""
+
+#: app.py:768
+msgid "RequestID and BorrowerID are required"
+msgstr ""
+
+#: app.py:776
+msgid "Lending request not found"
+msgstr ""
+
+#: app.py:779
+msgid "Not authorized to cancel this request"
+msgstr ""
+
+#: app.py:782
+msgid "Only pending requests can be cancelled"
+msgstr ""
+
+#: app.py:787
+msgid "Request cancelled"
+msgstr ""
+
+#: app.py:789
+#, python-format
+msgid "Error cancelling request: %s"
+msgstr ""
+
+#: app.py:822
+msgid "Review added successfully"
+msgstr ""
+
+#: templates/index.html:998
+msgid "FarmSupport Pro"
+msgstr "பண்ணை ஆதரவு புரோ"
+
+#: templates/index.html:1001
+msgid "Home"
+msgstr "முகப்பு"
+
+#: templates/index.html:1002
+msgid "Farmers"
+msgstr "விவசாயிகள்"
+
+#: templates/index.html:1003
+msgid "Crops"
+msgstr "பயிர்கள்"
+
+#: templates/index.html:1004
+msgid "Queries"
+msgstr "கேள்விகள்"
+
+#: templates/index.html:1005 templates/index.html:1165
+msgid "Equipment"
+msgstr "உபகரணங்கள்"
+
+#: templates/index.html:1006
+msgid "Lending"
+msgstr "கடன் வழங்குதல்"
+
+#: templates/index.html:1007
+msgid "Reviews"
+msgstr "விமர்சனங்கள்"
+
+#: templates/index.html:1010 templates/index.html:1371
+msgid "Login"
+msgstr "உள்நுழைவு"
+
+#: templates/index.html:1034
+msgid "Grow Better. Together."
+msgstr "சிறப்பாக வளருங்கள். ஒன்றாக."
+
+#: templates/index.html:1035
+msgid "Knowledge, equipment, and support for every farmer — all in one place."
+msgstr ""
+"ஒவ்வொரு விவசாயிக்கும் அறிவு, உபகரணங்கள் மற்றும் ஆதரவு - எல்லாம் ஒரே "
+"இடத்தில்."
+
+#: templates/index.html:1038
+msgid "Join Community"
+msgstr "சமூகத்தில் சேரவும்"
+
+#: templates/index.html:1041
+msgid "Ask a Query"
+msgstr "கேள்வி கேளுங்கள்"
+
+#: templates/index.html:1053
+msgid "Farmers Community"
+msgstr "விவசாயிகள் சமூகம்"
+
+#: templates/index.html:1058
+msgid "🔍 Search farmers..."
+msgstr "🔍 விவசாயிகளைத் தேடுங்கள்..."
+
+#: templates/index.html:1060
+msgid "All Locations"
+msgstr "அனைத்து இடங்கள்"
+
+#: templates/index.html:1073
+msgid "Crop Types"
+msgstr "பயிர் வகைகள்"
+
+#: templates/index.html:1076
+msgid "Add New Crop Type"
+msgstr "புதிய பயிர் வகையைச் சேர்க்கவும்"
+
+#: templates/index.html:1080
+msgid "Crop Name"
+msgstr "பயிர் பெயர்"
+
+#: templates/index.html:1084
+msgid "Category"
+msgstr "வகை"
+
+#: templates/index.html:1086
+msgid "Select Category"
+msgstr "வகையைத் தேர்ந்தெடுக்கவும்"
+
+#: templates/index.html:1087
+msgid "Grains"
+msgstr "தானியங்கள்"
+
+#: templates/index.html:1088
+msgid "Vegetables"
+msgstr "காய்கறிகள்"
+
+#: templates/index.html:1089
+msgid "Fruits"
+msgstr "பழங்கள்"
+
+#: templates/index.html:1090
+msgid "Legumes"
+msgstr "பருப்பு வகைகள்"
+
+#: templates/index.html:1091
+msgid "Pulses"
+msgstr "பயறு வகைகள்"
+
+#: templates/index.html:1092
+msgid "Cash Crops"
+msgstr "பண பயிர்கள்"
+
+#: templates/index.html:1093
+msgid "Oilseeds"
+msgstr "எண்ணெய் விதைகள்"
+
+#: templates/index.html:1094
+msgid "Spices"
+msgstr "மசாலாப் பொருட்கள்"
+
+#: templates/index.html:1095
+msgid "Flowers"
+msgstr "மலர்கள்"
+
+#: templates/index.html:1096
+msgid "Fiber"
+msgstr "நார்"
+
+#: templates/index.html:1097
+msgid "Plantation"
+msgstr "தோட்டம்"
+
+#: templates/index.html:1098
+msgid "Medicinal"
+msgstr "மருத்துவ"
+
+#: templates/index.html:1099
+msgid "Fodder"
+msgstr "தீவனம்"
+
+#: templates/index.html:1103
+msgid "Add Crop"
+msgstr "பயிர் சேர்க்கவும்"
+
+#: templates/index.html:1116
+msgid "Farmer Queries"
+msgstr "விவசாயி கேள்விகள்"
+
+#: templates/index.html:1119
+msgid "Post New Query"
+msgstr "புதிய கேள்வியை இடுங்கள்"
+
+#: templates/index.html:1123
+msgid "Title"
+msgstr "தலைப்பு"
+
+#: templates/index.html:1127
+msgid "Crop Type"
+msgstr "பயிர் வகை"
+
+#: templates/index.html:1129
+msgid "Select Crop"
+msgstr "பயிரைத் தேர்ந்தெடுக்கவும்"
+
+#: templates/index.html:1134
+msgid "Description"
+msgstr "விளக்கம்"
+
+#: templates/index.html:1138
+msgid "Image"
+msgstr "படம்"
+
+#: templates/index.html:1141
+msgid "Post Query"
+msgstr "கேள்வியை இடுங்கள்"
+
+#: templates/index.html:1146
+msgid "Search queries..."
+msgstr "கேள்விகளைத் தேடுங்கள்..."
+
+#: templates/index.html:1148
+msgid "All Crops"
+msgstr "அனைத்து பயிர்கள்"
+
+#: templates/index.html:1168
+msgid "Add New Equipment"
+msgstr "புதிய உபகரணத்தைச் சேர்க்கவும்"
+
+#: templates/index.html:1172
+msgid "Equipment Name"
+msgstr "உபகரண பெயர்"
+
+#: templates/index.html:1176
+msgid "Type"
+msgstr "வகை"
+
+#: templates/index.html:1178
+msgid "Select Type"
+msgstr "வகையைத் தேர்ந்தெடுக்கவும்"
+
+#: templates/index.html:1179 templates/index.html:1226
+msgid "Tractor"
+msgstr "டிராக்டர்"
+
+#: templates/index.html:1180 templates/index.html:1227
+msgid "Harvester"
+msgstr "அறுவடை இயந்திரம்"
+
+#: templates/index.html:1181
+msgid "Plough"
+msgstr "கலப்பை"
+
+#: templates/index.html:1182
+msgid "Sprayer"
+msgstr "தெளிப்பான்"
+
+#: templates/index.html:1183
+msgid "Thresher"
+msgstr "போரடிக்கும் இயந்திரம்"
+
+#: templates/index.html:1184
+msgid "Cultivator"
+msgstr "உழவு இயந்திரம்"
+
+#: templates/index.html:1185
+msgid "Seeder"
+msgstr "விதைப்பு இயந்திரம்"
+
+#: templates/index.html:1186
+msgid "Rotavator"
+msgstr "ரோட்டவேட்டர்"
+
+#: templates/index.html:1187
+msgid "Irrigation Pump"
+msgstr "பாசன பம்ப்"
+
+#: templates/index.html:1188
+msgid "Trailer"
+msgstr "டிரெய்லர்"
+
+#: templates/index.html:1189
+msgid "Baler"
+msgstr "கட்டு இயந்திரம்"
+
+#: templates/index.html:1190
+msgid "Combine"
+msgstr "கம்பைன்"
+
+#: templates/index.html:1191
+msgid "Power Tiller"
+msgstr "பவர் டில்லர்"
+
+#: templates/index.html:1192
+msgid "Drone Sprayer"
+msgstr "ட்ரோன் தெளிப்பான்"
+
+#: templates/index.html:1193
+msgid "Weeder"
+msgstr "களை எடுப்பான்"
+
+#: templates/index.html:1194
+msgid "Sprinkler"
+msgstr "தெளிப்பு இயந்திரம்"
+
+#: templates/index.html:1198
+msgid "Condition"
+msgstr "நிலை"
+
+#: templates/index.html:1200
+msgid "Select Condition"
+msgstr "நிலையைத் தேர்ந்தெடுக்கவும்"
+
+#: templates/index.html:1201
+msgid "Excellent"
+msgstr "மிகச் சிறந்தது"
+
+#: templates/index.html:1202
+msgid "Good"
+msgstr "நல்லது"
+
+#: templates/index.html:1203
+msgid "Fair"
+msgstr "சரியானது"
+
+#: templates/index.html:1207
+msgid "Hourly Rate (₹)"
+msgstr "மணிநேர கட்டணம் (₹)"
+
+#: templates/index.html:1211
+msgid "Availability"
+msgstr "கிடைக்கும் தன்மை"
+
+#: templates/index.html:1213
+msgid "Available"
+msgstr "கிடைக்கும்"
+
+#: templates/index.html:1214
+msgid "Unavailable"
+msgstr "கிடைக்காது"
+
+#: templates/index.html:1218
+msgid "Add Equipment"
+msgstr "உபகரணத்தைச் சேர்க்கவும்"
+
+#: templates/index.html:1223
+msgid "Search equipment..."
+msgstr "உபகரணத்தைத் தேடுங்கள்..."
+
+#: templates/index.html:1225
+msgid "All Types"
+msgstr "அனைத்து வகைகள்"
+
+#: templates/index.html:1246
+msgid "My Equipment"
+msgstr "எனது உபகரணங்கள்"
+
+#: templates/index.html:1251
+msgid "Available from Others"
+msgstr "மற்றவர்களிடமிருந்து கிடைக்கும்"
+
+#: templates/index.html:1355
+msgid "Login / Profile"
+msgstr "உள்நுழைவு / சுயவிவரம்"
+
+#: templates/index.html:1359
+msgid "Sign In or Create Account"
+msgstr "உள்நுழையவும் அல்லது கணக்கை உருவாக்கவும்"
+
+#: templates/index.html:1363
+msgid "Email"
+msgstr "மின்னஞ்சல்"
+
+#: templates/index.html:1367
+msgid "Password"
+msgstr "கடவுச்சொல்"
+
+#: templates/index.html:1372
+msgid "Sign Up"
+msgstr "பதிவு செய்"
+
+#: templates/index.html:1377
+msgid "Your Profile"
+msgstr "உங்கள் சுயவிவரம்"
+
+#: templates/index.html:1381
+msgid "Name"
+msgstr "பெயர்"
+
+#: templates/index.html:1385
+msgid "Location"
+msgstr "இடம்"
+
+#: templates/index.html:1389
+msgid "Phone"
+msgstr "தொலைபேசி"
+
+#: templates/index.html:1393
+msgid "Language"
+msgstr "மொழி"
+
+#: templates/index.html:1395
+msgid "Select Language"
+msgstr "மொழியைத் தேர்ந்தெடுக்கவும்"
+
+#: templates/index.html:1407
+msgid "Field Size (acres)"
+msgstr "வயல் அளவு (ஏக்கர்)"
+
+#: templates/index.html:1411
+msgid "Save Profile"
+msgstr "சுயவிவரத்தைச் சேமிக்கவும்"
+
+#: templates/index.html:1412
+msgid "Logout"
+msgstr "வெளியேறு"
+
+#: templates/index.html:1415
+msgid "Saved Details"
+msgstr "சேமிக்கப்பட்ட விவரங்கள்"
+
+#: venv/Lib/site-packages/click/_termui_impl.py:608
+#, python-brace-format
+msgid "{editor}: Editing failed"
+msgstr ""
+
+#: venv/Lib/site-packages/click/_termui_impl.py:612
+#, python-brace-format
+msgid "{editor}: Editing failed: {e}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1104
+#: venv/Lib/site-packages/click/core.py:1141
+#, python-brace-format
+msgid "{text} {deprecated_message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1160
+#, fuzzy
+msgid "Options"
+msgstr "இடம்"
+
+#: venv/Lib/site-packages/click/core.py:1222
+#, python-brace-format
+msgid "Got unexpected extra argument ({args})"
+msgid_plural "Got unexpected extra arguments ({args})"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/core.py:1241
+#, python-brace-format
+msgid "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1425
+msgid "Aborted!"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1799
+msgid "Commands"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1830
+msgid "Missing command."
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1908
+#, python-brace-format
+msgid "No such command {name!r}."
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:2332
+msgid "Value must be an iterable."
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:2355
+#, python-brace-format
+msgid "Takes {nargs} values but 1 was given."
+msgid_plural "Takes {nargs} values but {len} were given."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/core.py:2505
+#, python-brace-format
+msgid ""
+"DeprecationWarning: The {param_type} {name!r} is "
+"deprecated.{extra_message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:2956
+#, python-brace-format
+msgid "env var: {var}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:2959
+#, python-brace-format
+msgid "default: {default}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:2963
+msgid "required"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:3023
+msgid "(dynamic)"
+msgstr ""
+
+#: venv/Lib/site-packages/click/decorators.py:465
+#, python-format
+msgid "%(prog)s, version %(version)s"
+msgstr ""
+
+#: venv/Lib/site-packages/click/decorators.py:522
+msgid "Show the version and exit."
+msgstr ""
+
+#: venv/Lib/site-packages/click/decorators.py:548
+msgid "Show this message and exit."
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:50
+#: venv/Lib/site-packages/click/exceptions.py:89
+#, python-brace-format
+msgid "Error: {message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:81
+#, python-brace-format
+msgid "Try '{command} {option}' for help."
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:130
+#, python-brace-format
+msgid "Invalid value: {message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:132
+#, python-brace-format
+msgid "Invalid value for {param_hint}: {message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:190
+msgid "Missing argument"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:192
+msgid "Missing option"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:194
+msgid "Missing parameter"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:196
+#, python-brace-format
+msgid "Missing {param_type}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:203
+#, python-brace-format
+msgid "Missing parameter: {param_name}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:223
+#, python-brace-format
+msgid "No such option: {name}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:235
+#, python-brace-format
+msgid "Did you mean {possibility}?"
+msgid_plural "(Possible options: {possibilities})"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/exceptions.py:282
+msgid "unknown error"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:289
+#, python-brace-format
+msgid "Could not open file {filename!r}: {message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/formatting.py:156
+msgid "Usage:"
+msgstr ""
+
+#: venv/Lib/site-packages/click/parser.py:199
+#, python-brace-format
+msgid "Argument {name!r} takes {nargs} values."
+msgstr ""
+
+#: venv/Lib/site-packages/click/parser.py:381
+#, python-brace-format
+msgid "Option {name!r} does not take a value."
+msgstr ""
+
+#: venv/Lib/site-packages/click/parser.py:444
+#, python-brace-format
+msgid "Option {name!r} requires an argument."
+msgid_plural "Option {name!r} requires {nargs} arguments."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/shell_completion.py:332
+msgid "Shell completion is not supported for Bash versions older than 4.4."
+msgstr ""
+
+#: venv/Lib/site-packages/click/shell_completion.py:339
+msgid "Couldn't detect Bash version, shell completion is not supported."
+msgstr ""
+
+#: venv/Lib/site-packages/click/termui.py:162
+#, fuzzy
+msgid "Repeat for confirmation"
+msgstr "நிலையைத் தேர்ந்தெடுக்கவும்"
+
+#: venv/Lib/site-packages/click/termui.py:178
+msgid "Error: The value you entered was invalid."
+msgstr ""
+
+#: venv/Lib/site-packages/click/termui.py:180
+#, python-brace-format
+msgid "Error: {e.message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/termui.py:191
+msgid "Error: The two entered values do not match."
+msgstr ""
+
+#: venv/Lib/site-packages/click/termui.py:247
+msgid "Error: invalid input"
+msgstr ""
+
+#: venv/Lib/site-packages/click/termui.py:866
+msgid "Press any key to continue..."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:332
+#, python-brace-format
+msgid ""
+"Choose from:\n"
+"\t{choices}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:369
+#, python-brace-format
+msgid "{value!r} is not {choice}."
+msgid_plural "{value!r} is not one of {choices}."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/types.py:460
+#, python-brace-format
+msgid "{value!r} does not match the format {format}."
+msgid_plural "{value!r} does not match the formats {formats}."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/types.py:482
+#, python-brace-format
+msgid "{value!r} is not a valid {number_type}."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:538
+#, python-brace-format
+msgid "{value} is not in the range {range}."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:719
+#, python-brace-format
+msgid "{value!r} is not a valid boolean. Recognized values: {states}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:747
+#, python-brace-format
+msgid "{value!r} is not a valid UUID."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:937
+#, fuzzy
+msgid "file"
+msgstr "தலைப்பு"
+
+#: venv/Lib/site-packages/click/types.py:939
+#, fuzzy
+msgid "directory"
+msgstr "டிராக்டர்"
+
+#: venv/Lib/site-packages/click/types.py:941
+msgid "path"
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:988
+#, python-brace-format
+msgid "{name} {filename!r} does not exist."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:997
+#, python-brace-format
+msgid "{name} {filename!r} is a file."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:1005
+#, python-brace-format
+msgid "{name} {filename!r} is a directory."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:1014
+#, python-brace-format
+msgid "{name} {filename!r} is not readable."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:1023
+#, python-brace-format
+msgid "{name} {filename!r} is not writable."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:1032
+#, python-brace-format
+msgid "{name} {filename!r} is not executable."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:1099
+#, python-brace-format
+msgid "{len_type} values are required, but {len_value} was given."
+msgid_plural "{len_type} values are required, but {len_value} were given."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Voice Query"
+msgstr "குரல் வினா"
+
+msgid "Start Recording"
+msgstr "பதிவைத் தொடங்கவும்"
+
+msgid "Clear"
+msgstr "அழிக்கவும்"
+
+msgid "Click the microphone to record your query in your preferred language"
+msgstr "உங்கள் விருப்பமான மொழியில் உங்கள் வினாவை பதிவு செய்ய மைக்ரோஃபோனைக் கிளிக் செய்யவும்"
+
+msgid "Enter your name in your preferred language"
+msgstr "உங்கள் விருப்பமான மொழியில் உங்கள் பெயரை உள்ளிடவும்"
+
+msgid "Enter your location in your preferred language"
+msgstr "உங்கள் விருப்பமான மொழியில் உங்கள் இருப்பிடத்தை உள்ளிடவும்"
+
+msgid "Describe your query in your preferred language"
+msgstr "உங்கள் விருப்பமான மொழியில் உங்கள் வினாவை விவரிக்கவும்"
+
+msgid "Enter query title in your preferred language"
+msgstr "உங்கள் விருப்பமான மொழியில் வினா தலைப்பை உள்ளிடவும்"
+

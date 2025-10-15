@@ -1,0 +1,873 @@
+# Hindi translations for Farming Support System
+# Copyright (C) 2025
+# This file is distributed under the same license as the Farming Support
+# System project.
+msgid ""
+msgstr ""
+"Project-Id-Version: Farming Support System 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-16 01:49+0530\n"
+"PO-Revision-Date: 2025-10-16 01:30+0530\n"
+"Last-Translator: \n"
+"Language: hi\n"
+"Language-Team: hi <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: app.py:619
+#, python-format
+msgid "%s is required"
+msgstr ""
+
+#: app.py:629
+#, fuzzy
+msgid "Equipment not found"
+msgstr "उपकरण का नाम"
+
+#: app.py:634
+msgid "Owner cannot borrow own equipment"
+msgstr ""
+
+#: app.py:652
+msgid "Lending request added successfully"
+msgstr ""
+
+#: app.py:656
+#, python-format
+msgid "Error adding lending request: %s"
+msgstr ""
+
+#: app.py:705
+msgid "RequestID and status are required"
+msgstr ""
+
+#: app.py:709
+msgid "Invalid status"
+msgstr ""
+
+#: app.py:718
+msgid "Lending request updated"
+msgstr ""
+
+#: app.py:721
+#, python-format
+msgid "Error updating lending request: %s"
+msgstr ""
+
+#: app.py:768
+msgid "RequestID and BorrowerID are required"
+msgstr ""
+
+#: app.py:776
+msgid "Lending request not found"
+msgstr ""
+
+#: app.py:779
+msgid "Not authorized to cancel this request"
+msgstr ""
+
+#: app.py:782
+msgid "Only pending requests can be cancelled"
+msgstr ""
+
+#: app.py:787
+msgid "Request cancelled"
+msgstr ""
+
+#: app.py:789
+#, python-format
+msgid "Error cancelling request: %s"
+msgstr ""
+
+#: app.py:822
+msgid "Review added successfully"
+msgstr ""
+
+#: templates/index.html:998
+msgid "FarmSupport Pro"
+msgstr "फार्म सपोर्ट प्रो"
+
+#: templates/index.html:1001
+msgid "Home"
+msgstr "होम"
+
+#: templates/index.html:1002
+msgid "Farmers"
+msgstr "किसान"
+
+#: templates/index.html:1003
+msgid "Crops"
+msgstr "फसलें"
+
+#: templates/index.html:1004
+msgid "Queries"
+msgstr "प्रश्न"
+
+#: templates/index.html:1005 templates/index.html:1165
+msgid "Equipment"
+msgstr "उपकरण"
+
+#: templates/index.html:1006
+msgid "Lending"
+msgstr "उधार देना"
+
+#: templates/index.html:1007
+msgid "Reviews"
+msgstr "समीक्षाएं"
+
+#: templates/index.html:1010 templates/index.html:1371
+msgid "Login"
+msgstr "लॉगिन करें"
+
+#: templates/index.html:1034
+msgid "Grow Better. Together."
+msgstr "बेहतर बढ़ें। साथ मिलकर।"
+
+#: templates/index.html:1035
+msgid "Knowledge, equipment, and support for every farmer — all in one place."
+msgstr "हर किसान के लिए ज्ञान, उपकरण और समर्थन - सब एक जगह।"
+
+#: templates/index.html:1038
+msgid "Join Community"
+msgstr "समुदाय में शामिल हों"
+
+#: templates/index.html:1041
+msgid "Ask a Query"
+msgstr "प्रश्न पूछें"
+
+#: templates/index.html:1053
+msgid "Farmers Community"
+msgstr "किसान समुदाय"
+
+#: templates/index.html:1058
+msgid "🔍 Search farmers..."
+msgstr "🔍 किसानों को खोजें..."
+
+#: templates/index.html:1060
+msgid "All Locations"
+msgstr "सभी स्थान"
+
+#: templates/index.html:1073
+msgid "Crop Types"
+msgstr "फसल के प्रकार"
+
+#: templates/index.html:1076
+msgid "Add New Crop Type"
+msgstr "नई फसल प्रकार जोड़ें"
+
+#: templates/index.html:1080
+msgid "Crop Name"
+msgstr "फसल का नाम"
+
+#: templates/index.html:1084
+msgid "Category"
+msgstr "श्रेणी"
+
+#: templates/index.html:1086
+msgid "Select Category"
+msgstr "श्रेणी चुनें"
+
+#: templates/index.html:1087
+msgid "Grains"
+msgstr "अनाज"
+
+#: templates/index.html:1088
+msgid "Vegetables"
+msgstr "सब्जियां"
+
+#: templates/index.html:1089
+msgid "Fruits"
+msgstr "फल"
+
+#: templates/index.html:1090
+msgid "Legumes"
+msgstr "दालें"
+
+#: templates/index.html:1091
+msgid "Pulses"
+msgstr "दलहन"
+
+#: templates/index.html:1092
+msgid "Cash Crops"
+msgstr "नकदी फसलें"
+
+#: templates/index.html:1093
+msgid "Oilseeds"
+msgstr "तिलहन"
+
+#: templates/index.html:1094
+msgid "Spices"
+msgstr "मसाले"
+
+#: templates/index.html:1095
+msgid "Flowers"
+msgstr "फूल"
+
+#: templates/index.html:1096
+msgid "Fiber"
+msgstr "रेशा"
+
+#: templates/index.html:1097
+msgid "Plantation"
+msgstr "बागान"
+
+#: templates/index.html:1098
+msgid "Medicinal"
+msgstr "औषधीय"
+
+#: templates/index.html:1099
+msgid "Fodder"
+msgstr "चारा"
+
+#: templates/index.html:1103
+msgid "Add Crop"
+msgstr "फसल जोड़ें"
+
+#: templates/index.html:1116
+msgid "Farmer Queries"
+msgstr "किसान के प्रश्न"
+
+#: templates/index.html:1119
+msgid "Post New Query"
+msgstr "नया प्रश्न पोस्ट करें"
+
+#: templates/index.html:1123
+msgid "Title"
+msgstr "शीर्षक"
+
+#: templates/index.html:1127
+msgid "Crop Type"
+msgstr "फसल का प्रकार"
+
+#: templates/index.html:1129
+msgid "Select Crop"
+msgstr "फसल चुनें"
+
+#: templates/index.html:1134
+msgid "Description"
+msgstr "विवरण"
+
+#: templates/index.html:1138
+msgid "Image"
+msgstr "छवि"
+
+#: templates/index.html:1141
+msgid "Post Query"
+msgstr "प्रश्न पोस्ट करें"
+
+#: templates/index.html:1146
+msgid "Search queries..."
+msgstr "प्रश्न खोजें..."
+
+#: templates/index.html:1148
+msgid "All Crops"
+msgstr "सभी फसलें"
+
+#: templates/index.html:1168
+msgid "Add New Equipment"
+msgstr "नया उपकरण जोड़ें"
+
+#: templates/index.html:1172
+msgid "Equipment Name"
+msgstr "उपकरण का नाम"
+
+#: templates/index.html:1176
+msgid "Type"
+msgstr "प्रकार"
+
+#: templates/index.html:1178
+msgid "Select Type"
+msgstr "प्रकार चुनें"
+
+#: templates/index.html:1179 templates/index.html:1226
+msgid "Tractor"
+msgstr "ट्रैक्टर"
+
+#: templates/index.html:1180 templates/index.html:1227
+msgid "Harvester"
+msgstr "कटाई मशीन"
+
+#: templates/index.html:1181
+msgid "Plough"
+msgstr "हल"
+
+#: templates/index.html:1182
+msgid "Sprayer"
+msgstr "छिड़काव यंत्र"
+
+#: templates/index.html:1183
+msgid "Thresher"
+msgstr "थ्रेशर"
+
+#: templates/index.html:1184
+msgid "Cultivator"
+msgstr "कल्टीवेटर"
+
+#: templates/index.html:1185
+msgid "Seeder"
+msgstr "बीज बोने की मशीन"
+
+#: templates/index.html:1186
+msgid "Rotavator"
+msgstr "रोटावेटर"
+
+#: templates/index.html:1187
+msgid "Irrigation Pump"
+msgstr "सिंचाई पंप"
+
+#: templates/index.html:1188
+msgid "Trailer"
+msgstr "ट्रेलर"
+
+#: templates/index.html:1189
+msgid "Baler"
+msgstr "गांठ बनाने की मशीन"
+
+#: templates/index.html:1190
+msgid "Combine"
+msgstr "कंबाइन"
+
+#: templates/index.html:1191
+msgid "Power Tiller"
+msgstr "पावर टिलर"
+
+#: templates/index.html:1192
+msgid "Drone Sprayer"
+msgstr "ड्रोन स्प्रेयर"
+
+#: templates/index.html:1193
+msgid "Weeder"
+msgstr "खरपतवार निकालने की मशीन"
+
+#: templates/index.html:1194
+msgid "Sprinkler"
+msgstr "फव्वारा"
+
+#: templates/index.html:1198
+msgid "Condition"
+msgstr "स्थिति"
+
+#: templates/index.html:1200
+msgid "Select Condition"
+msgstr "स्थिति चुनें"
+
+#: templates/index.html:1201
+msgid "Excellent"
+msgstr "उत्कृष्ट"
+
+#: templates/index.html:1202
+msgid "Good"
+msgstr "अच्छा"
+
+#: templates/index.html:1203
+msgid "Fair"
+msgstr "ठीक है"
+
+#: templates/index.html:1207
+msgid "Hourly Rate (₹)"
+msgstr "प्रति घंटा दर (₹)"
+
+#: templates/index.html:1211
+msgid "Availability"
+msgstr "उपलब्धता"
+
+#: templates/index.html:1213
+msgid "Available"
+msgstr "उपलब्ध"
+
+#: templates/index.html:1214
+msgid "Unavailable"
+msgstr "अनुपलब्ध"
+
+#: templates/index.html:1218
+msgid "Add Equipment"
+msgstr "उपकरण जोड़ें"
+
+#: templates/index.html:1223
+msgid "Search equipment..."
+msgstr "उपकरण खोजें..."
+
+#: templates/index.html:1225
+msgid "All Types"
+msgstr "सभी प्रकार"
+
+#: templates/index.html:1246
+msgid "My Equipment"
+msgstr "मेरे उपकरण"
+
+#: templates/index.html:1251
+msgid "Available from Others"
+msgstr "दूसरों से उपलब्ध"
+
+#: templates/index.html:1355
+msgid "Login / Profile"
+msgstr "लॉगिन / प्रोफाइल"
+
+#: templates/index.html:1359
+msgid "Sign In or Create Account"
+msgstr "साइन इन करें या खाता बनाएं"
+
+#: templates/index.html:1363
+msgid "Email"
+msgstr "ईमेल"
+
+#: templates/index.html:1367
+msgid "Password"
+msgstr "पासवर्ड"
+
+#: templates/index.html:1372
+msgid "Sign Up"
+msgstr "साइन अप करें"
+
+#: templates/index.html:1377
+msgid "Your Profile"
+msgstr "आपकी प्रोफाइल"
+
+#: templates/index.html:1381
+msgid "Name"
+msgstr "नाम"
+
+#: templates/index.html:1385
+msgid "Location"
+msgstr "स्थान"
+
+#: templates/index.html:1389
+msgid "Phone"
+msgstr "फोन"
+
+#: templates/index.html:1393
+msgid "Language"
+msgstr "भाषा"
+
+#: templates/index.html:1395
+msgid "Select Language"
+msgstr "भाषा चुनें"
+
+#: templates/index.html:1407
+msgid "Field Size (acres)"
+msgstr "खेत का आकार (एकड़)"
+
+#: templates/index.html:1411
+msgid "Save Profile"
+msgstr "प्रोफाइल सहेजें"
+
+#: templates/index.html:1412
+msgid "Logout"
+msgstr "लॉगआउट"
+
+#: templates/index.html:1415
+msgid "Saved Details"
+msgstr "सहेजे गए विवरण"
+
+#: venv/Lib/site-packages/click/_termui_impl.py:608
+#, python-brace-format
+msgid "{editor}: Editing failed"
+msgstr ""
+
+#: venv/Lib/site-packages/click/_termui_impl.py:612
+#, python-brace-format
+msgid "{editor}: Editing failed: {e}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1104
+#: venv/Lib/site-packages/click/core.py:1141
+#, python-brace-format
+msgid "{text} {deprecated_message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1160
+#, fuzzy
+msgid "Options"
+msgstr "स्थान"
+
+#: venv/Lib/site-packages/click/core.py:1222
+#, python-brace-format
+msgid "Got unexpected extra argument ({args})"
+msgid_plural "Got unexpected extra arguments ({args})"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/core.py:1241
+#, python-brace-format
+msgid "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1425
+msgid "Aborted!"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1799
+msgid "Commands"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1830
+msgid "Missing command."
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1908
+#, python-brace-format
+msgid "No such command {name!r}."
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:2332
+msgid "Value must be an iterable."
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:2355
+#, python-brace-format
+msgid "Takes {nargs} values but 1 was given."
+msgid_plural "Takes {nargs} values but {len} were given."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/core.py:2505
+#, python-brace-format
+msgid ""
+"DeprecationWarning: The {param_type} {name!r} is "
+"deprecated.{extra_message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:2956
+#, python-brace-format
+msgid "env var: {var}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:2959
+#, python-brace-format
+msgid "default: {default}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:2963
+msgid "required"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:3023
+msgid "(dynamic)"
+msgstr ""
+
+#: venv/Lib/site-packages/click/decorators.py:465
+#, python-format
+msgid "%(prog)s, version %(version)s"
+msgstr ""
+
+#: venv/Lib/site-packages/click/decorators.py:522
+msgid "Show the version and exit."
+msgstr ""
+
+#: venv/Lib/site-packages/click/decorators.py:548
+msgid "Show this message and exit."
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:50
+#: venv/Lib/site-packages/click/exceptions.py:89
+#, python-brace-format
+msgid "Error: {message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:81
+#, python-brace-format
+msgid "Try '{command} {option}' for help."
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:130
+#, python-brace-format
+msgid "Invalid value: {message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:132
+#, python-brace-format
+msgid "Invalid value for {param_hint}: {message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:190
+msgid "Missing argument"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:192
+msgid "Missing option"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:194
+msgid "Missing parameter"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:196
+#, python-brace-format
+msgid "Missing {param_type}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:203
+#, python-brace-format
+msgid "Missing parameter: {param_name}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:223
+#, python-brace-format
+msgid "No such option: {name}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:235
+#, python-brace-format
+msgid "Did you mean {possibility}?"
+msgid_plural "(Possible options: {possibilities})"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/exceptions.py:282
+msgid "unknown error"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:289
+#, python-brace-format
+msgid "Could not open file {filename!r}: {message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/formatting.py:156
+msgid "Usage:"
+msgstr ""
+
+#: venv/Lib/site-packages/click/parser.py:199
+#, python-brace-format
+msgid "Argument {name!r} takes {nargs} values."
+msgstr ""
+
+#: venv/Lib/site-packages/click/parser.py:381
+#, python-brace-format
+msgid "Option {name!r} does not take a value."
+msgstr ""
+
+#: venv/Lib/site-packages/click/parser.py:444
+#, python-brace-format
+msgid "Option {name!r} requires an argument."
+msgid_plural "Option {name!r} requires {nargs} arguments."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/shell_completion.py:332
+msgid "Shell completion is not supported for Bash versions older than 4.4."
+msgstr ""
+
+#: venv/Lib/site-packages/click/shell_completion.py:339
+msgid "Couldn't detect Bash version, shell completion is not supported."
+msgstr ""
+
+#: venv/Lib/site-packages/click/termui.py:162
+#, fuzzy
+msgid "Repeat for confirmation"
+msgstr "स्थिति चुनें"
+
+#: venv/Lib/site-packages/click/termui.py:178
+msgid "Error: The value you entered was invalid."
+msgstr ""
+
+#: venv/Lib/site-packages/click/termui.py:180
+#, python-brace-format
+msgid "Error: {e.message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/termui.py:191
+msgid "Error: The two entered values do not match."
+msgstr ""
+
+#: venv/Lib/site-packages/click/termui.py:247
+msgid "Error: invalid input"
+msgstr ""
+
+#: venv/Lib/site-packages/click/termui.py:866
+msgid "Press any key to continue..."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:332
+#, python-brace-format
+msgid ""
+"Choose from:\n"
+"\t{choices}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:369
+#, python-brace-format
+msgid "{value!r} is not {choice}."
+msgid_plural "{value!r} is not one of {choices}."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/types.py:460
+#, python-brace-format
+msgid "{value!r} does not match the format {format}."
+msgid_plural "{value!r} does not match the formats {formats}."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/types.py:482
+#, python-brace-format
+msgid "{value!r} is not a valid {number_type}."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:538
+#, python-brace-format
+msgid "{value} is not in the range {range}."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:719
+#, python-brace-format
+msgid "{value!r} is not a valid boolean. Recognized values: {states}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:747
+#, python-brace-format
+msgid "{value!r} is not a valid UUID."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:937
+#, fuzzy
+msgid "file"
+msgstr "शीर्षक"
+
+#: venv/Lib/site-packages/click/types.py:939
+#, fuzzy
+msgid "directory"
+msgstr "ट्रैक्टर"
+
+#: venv/Lib/site-packages/click/types.py:941
+msgid "path"
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:988
+#, python-brace-format
+msgid "{name} {filename!r} does not exist."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:997
+#, python-brace-format
+msgid "{name} {filename!r} is a file."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:1005
+#, python-brace-format
+msgid "{name} {filename!r} is a directory."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:1014
+#, python-brace-format
+msgid "{name} {filename!r} is not readable."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:1023
+#, python-brace-format
+msgid "{name} {filename!r} is not writable."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:1032
+#, python-brace-format
+msgid "{name} {filename!r} is not executable."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:1099
+#, python-brace-format
+msgid "{len_type} values are required, but {len_value} was given."
+msgid_plural "{len_type} values are required, but {len_value} were given."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Equipment Lending"
+msgstr "उपकरण उधार"
+
+msgid "Request Equipment"
+msgstr "उपकरण का अनुरोध करें"
+
+msgid "Equipment"
+msgstr "उपकरण"
+
+msgid "Select Equipment"
+msgstr "उपकरण चुनें"
+
+msgid "Borrower"
+msgstr "उधारकर्ता"
+
+msgid "Auto-set to your account"
+msgstr "आपके खाते में स्वचालित रूप से सेट"
+
+msgid "Start Date"
+msgstr "प्रारंभ तिथि"
+
+msgid "dd-mm-yyyy"
+msgstr "dd-mm-yyyy"
+
+msgid "Duration (days)"
+msgstr "अवधि (दिन)"
+
+msgid "Submit Request"
+msgstr "अनुरोध सबमिट करें"
+
+msgid "My Requests (Borrowing)"
+msgstr "मेरे अनुरोध (उधार लेना)"
+
+msgid "No requests yet."
+msgstr "अभी तक कोई अनुरोध नहीं।"
+
+msgid "Requests for My Equipment (Lending)"
+msgstr "मेरे उपकरणों के लिए अनुरोध (उधार देना)"
+
+msgid "Reviews & Feedback"
+msgstr "समीक्षा और प्रतिक्रिया"
+
+msgid "Add Review"
+msgstr "समीक्षा जोड़ें"
+
+msgid "From (Reviewer)"
+msgstr "से (समीक्षक)"
+
+msgid "To (Review Target)"
+msgstr "को (समीक्षा लक्ष्य)"
+
+msgid "Select Farmer"
+msgstr "किसान चुनें"
+
+msgid "Type"
+msgstr "प्रकार"
+
+msgid "Farmer"
+msgstr "किसान"
+
+msgid "Rating"
+msgstr "रेटिंग"
+
+msgid "Feedback"
+msgstr "प्रतिक्रिया"
+
+msgid "Submit Review"
+msgstr "समीक्षा सबमिट करें"
+
+msgid "Voice Query"
+msgstr "आवाज़ प्रश्न"
+
+msgid "Start Recording"
+msgstr "रिकॉर्डिंग शुरू करें"
+
+msgid "Clear"
+msgstr "साफ़ करें"
+
+msgid "Click the microphone to record your query in your preferred language"
+msgstr "अपनी पसंदीदा भाषा में प्रश्न रिकॉर्ड करने के लिए माइक्रोफोन पर क्लिक करें"
+
+msgid "Enter your name in your preferred language"
+msgstr "अपनी पसंदीदा भाषा में अपना नाम दर्ज करें"
+
+msgid "Enter your location in your preferred language"
+msgstr "अपनी पसंदीदा भाषा में अपना स्थान दर्ज करें"
+
+msgid "Describe your query in your preferred language"
+msgstr "अपनी पसंदीदा भाषा में अपना प्रश्न वर्णन करें"
+
+msgid "Enter query title in your preferred language"
+msgstr "अपनी पसंदीदा भाषा में प्रश्न शीर्षक दर्ज करें"
+
+#~ msgid "anjali"
+#~ msgstr "अंजली"
+
+#~ msgid "dd-mm-yyyy"
+#~ msgstr "dd-mm-yyyy"
+

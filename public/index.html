@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmLink - Connect, Share, Grow Together</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #1a5d1a;
+            --light-green: #4a7c59;
+            --accent-green: #7fb069;
+            --bright-green: #90ee90;
+            --earthy-brown: #8b4513;
+            --warm-yellow: #ffd700;
+            --orange-accent: #ff8c00;
+            --cream-white: #faf8f3;
+            --soft-beige: #f5f5dc;
+            --card-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            --hover-shadow: 0 16px 48px rgba(0,0,0,0.18);
+            --gradient-primary: linear-gradient(135deg, #1a5d1a 0%, #4a7c59 100%);
+            --gradient-accent: linear-gradient(135deg, #7fb069 0%, #90ee90 100%);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--cream-white) 0%, #f0f8e8 50%, var(--soft-beige) 100%);
+            color: #333;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Enhanced background with farming patterns */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(127, 176, 105, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(139, 69, 19, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Enhanced Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 93, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26, 93, 26, 0.9) 0%, rgba(74, 124, 89, 0.8) 100%);
+            z-index: -1;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--warm-yellow);
+            animation: pulse 2s infinite;
+            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-links a:hover::before {
+            left: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-links a i {
+            font-size: 1.1rem;
+        }
+
+        .mobile-menu {
+            display: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px 40px;
+        }
+
+        .section {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            margin-bottom: 3rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Enhanced hero section styling with better animations and layout */
+        .hero {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 50%, #68a085 100%);
+            color: white;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            min-height: 80vh;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('/placeholder.svg?height=800&width=1200') center/cover;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .brand-highlight {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-large {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+        }
+
+        .hero-image {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .floating-crops {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .crop-emoji {
+            position: absolute;
+            font-size: 2rem;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.7;
+        }
+
+        .crop-emoji:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .crop-emoji:nth-child(2) { top: 20%; right: 15%; animation-delay: 1s; }
+        .crop-emoji:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 2s; }
+        .crop-emoji:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 3s; }
+        .crop-emoji:nth-child(5) { top: 50%; left: 5%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .card h3 {
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 3px rgba(127, 176, 105, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(26, 93, 26, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(26, 93, 26, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--gradient-accent);
+            color: white;
+            box-shadow: 0 4px 15px rgba(127, 176, 105, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(127, 176, 105, 0.4);
+        }
+
+        .search-filter {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box,
+        .filter-select {
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box:focus,
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 3px rgba(127, 176, 105, 0.1);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .farmer-card,
+        .crop-card,
+        .equipment-card,
+        .lending-card,
+        .review-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .farmer-card::before,
+        .crop-card::before,
+        .equipment-card::before,
+        .lending-card::before,
+        .review-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .farmer-card:hover,
+        .crop-card:hover,
+        .equipment-card:hover,
+        .lending-card:hover,
+        .review-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .query-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .query-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .query-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .query-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .query-meta {
+            font-size: 0.9rem;
+            color: #666;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .query-description {
+            margin: 1rem 0;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .query-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            border-radius: 20px;
+        }
+
+        .responses {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .response {
+            background: rgba(127, 176, 105, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .response-author {
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-available {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+        }
+
+        .status-unavailable {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+
+        .status-approved {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+        }
+
+        .status-rejected {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+        }
+
+        .stars {
+            display: flex;
+            gap: 4px;
+            margin: 0.5rem 0;
+        }
+
+        .stars i {
+            font-size: 1.2rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .stars i:hover,
+        .stars i.active {
+            color: var(--warm-yellow);
+            transform: scale(1.1);
+        }
+
+        .review-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-author {
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .review-text {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Enhanced responsive design for mobile */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-stats {
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-filter {
+                flex-direction: column;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 80px 15px 20px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Floating Animation for Background Elements */
+        .floating-crop {
+            position: fixed;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating background elements -->
+    <div class="floating-crop" style="top: 10%; left: 10%; animation-delay: 0s;">🌾</div>
+    <div class="floating-crop" style="top: 20%; right: 15%; animation-delay: 1s;">🌽</div>
+    <div class="floating-crop" style="bottom: 30%; left: 20%; animation-delay: 2s;">🍅</div>
+    <div class="floating-crop" style="top: 60%; right: 25%; animation-delay: 3s;">🥕</div>
+    <div class="floating-crop" style="bottom: 20%; right: 10%; animation-delay: 4s;">🌱</div>
+
+    <!-- Enhanced Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <!-- Updated logo to FarmLink with farming icon -->
+                <i class="fas fa-link"></i>
+                <i class="fas fa-seedling"></i>
+                FarmLink
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showSection('home')" class="active"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" onclick="showSection('farmers')"><i class="fas fa-users"></i> Farmers</a></li>
+                <li><a href="#" onclick="showSection('crops')"><i class="fas fa-leaf"></i> Crops</a></li>
+                <li><a href="#" onclick="showSection('queries')"><i class="fas fa-question-circle"></i> Queries</a></li>
+                <li><a href="#" onclick="showSection('equipment')"><i class="fas fa-tractor"></i> Equipment</a></li>
+                <li><a href="#" onclick="showSection('lending')"><i class="fas fa-handshake"></i> Lending</a></li>
+                <li><a href="#" onclick="showSection('reviews')"><i class="fas fa-star"></i> Reviews</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Enhanced hero section with better styling and animations -->
+    <section id="home" class="section active">
+        <div class="hero">
+            <div class="hero-content">
+                <div class="floating-crops">
+                    <span class="crop-emoji">🌾</span>
+                    <span class="crop-emoji">🌽</span>
+                    <span class="crop-emoji">🍅</span>
+                    <span class="crop-emoji">🥕</span>
+                    <span class="crop-emoji">🌱</span>
+                </div>
+                <h1 class="hero-title">Welcome to <span class="brand-highlight">FarmLink</span></h1>
+                <p class="hero-subtitle">Connecting Indian Farmers • Sharing Knowledge • Growing Together</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">10,000+</div>
+                        <div class="stat-label">Active Farmers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5,000+</div>
+                        <div class="stat-label">Queries Solved</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2,000+</div>
+                        <div class="stat-label">Equipment Shared</div>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-large" onclick="showSection('farmers')">
+                        <i class="fas fa-user-plus"></i> Join Community
+                    </button>
+                    <button class="btn btn-secondary btn-large" onclick="showSection('queries')">
+                        <i class="fas fa-question-circle"></i> Ask Question
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="/placeholder.svg?height=400&width=600" alt="Indian Farmer" />
+            </div>
+        </div>
+    </section>
+
+    <!-- Added all missing sections for farmers, crops, queries, equipment, lending, and reviews -->
+    <!-- Farmers Section -->
+    <section id="farmers" class="section">
+        <div class="container">
+            <h2 class="section-title">👨‍🌾 Farmers Community</h2>
+            
+            <div class="card">
+                <h3><i class="fas fa-user-plus"></i> Create Your Farmer Profile</h3>
+                <form id="farmerForm" onsubmit="addFarmer(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Your Name</label>
+                            <input type="text" id="farmerName" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-map-marker-alt"></i> Your Farm Location</label>
+                            <input type="text" id="farmerLocation" placeholder="Village, District, State" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-language"></i> Primary Language</label>
+                            <select id="farmerLanguage" required>
+                                <option value="">Select Language</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="English">English</option>
+                                <option value="Marathi">Marathi</option>
+                                <option value="Tamil">Tamil</option>
+                                <option value="Telugu">Telugu</option>
+                                <option value="Gujarati">Gujarati</option>
+                                <option value="Punjabi">Punjabi</option>
+                                <option value="Bengali">Bengali</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-expand-arrows-alt"></i> Farm Size (acres)</label>
+                            <input type="number" id="farmerFieldSize" placeholder="Total farm area" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-phone"></i> Contact Info</label>
+                            <input type="text" id="farmerContact" placeholder="Mobile/Email" required>
+                        </div>
+                        <!-- Removed email field as it's not in the database schema -->
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-user-check"></i> Join FarmLink Community
+                    </button>
+                </form>
+            </div>
+
+            <div class="search-filter">
+                <input type="text" class="search-box" placeholder="🔍 Search farmers..." onkeyup="searchFarmers(this.value)">
+            </div>
+
+            <div id="farmersGrid" class="grid"></div>
+        </div>
+    </section>
+
+    <!-- Crops Section -->
+    <section id="crops" class="section">
+        <div class="container">
+            <h2 class="section-title">🌱 Crop Types</h2>
+            
+            <div class="card">
+                <h3><i class="fas fa-seedling"></i> Add New Crop Type</h3>
+                <form id="cropForm" onsubmit="addCrop(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label><i class="fas fa-leaf"></i> Crop Name</label>
+                            <input type="text" id="cropName" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-tags"></i> Category</label>
+                            <select id="cropCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="Grains">Grains</option>
+                                <option value="Vegetables">Vegetables</option>
+                                <option value="Fruits">Fruits</option>
+                                <option value="Cash Crops">Cash Crops</option>
+                                <option value="Pulses">Pulses</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Crop
+                    </button>
+                </form>
+            </div>
+
+            <div id="cropsGrid" class="grid"></div>
+        </div>
+    </section>
+
+    <!-- Queries Section -->
+    <section id="queries" class="section">
+        <div class="container">
+            <h2 class="section-title">❓ Farmer Queries</h2>
+            
+            <div class="card">
+                <h3><i class="fas fa-question-circle"></i> Post New Query</h3>
+                <form id="queryForm" onsubmit="addQuery(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label><i class="fas fa-heading"></i> Title</label>
+                            <input type="text" id="queryTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-leaf"></i> Crop Type</label>
+                            <select id="queryCropType" required>
+                                <option value="">Select Crop</option>
+                            </select>
+                        </div>
+                        <!-- Added image URL field as per database schema -->
+                        <div class="form-group">
+                            <label><i class="fas fa-image"></i> Image URL (Optional)</label>
+                            <input type="url" id="queryImageUrl" placeholder="https://example.com/image.jpg">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-align-left"></i> Description</label>
+                        <textarea id="queryDescription" rows="4" required></textarea>
+                    </div>
+                    <!-- Removed author field as it should use FarmerID -->
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Post Query
+                    </button>
+                </form>
+            </div>
+
+            <div class="search-filter">
+                <input type="text" class="search-box" placeholder="🔍 Search queries..." onkeyup="searchQueries(this.value)">
+                <select class="filter-select" onchange="filterQueries(this.value)">
+                    <option value="">All Crops</option>
+                </select>
+            </div>
+
+            <div id="queriesContainer"></div>
+        </div>
+    </section>
+
+    <!-- Equipment Section -->
+    <section id="equipment" class="section">
+        <div class="container">
+            <h2 class="section-title">🚜 Equipment Sharing</h2>
+            
+            <div class="card">
+                <h3><i class="fas fa-tractor"></i> Add Equipment</h3>
+                <form id="equipmentForm" onsubmit="addEquipment(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label><i class="fas fa-tag"></i> Equipment Name</label>
+                            <input type="text" id="equipmentName" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-cogs"></i> Type</label>
+                            <select id="equipmentType" required>
+                                <option value="">Select Type</option>
+                                <option value="Tractor">Tractor</option>
+                                <option value="Harvester">Harvester</option>
+                                <option value="Plough">Plough</option>
+                                <option value="Sprayer">Sprayer</option>
+                                <option value="Thresher">Thresher</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-star"></i> Condition</label>
+                            <select id="equipmentCondition" required>
+                                <option value="">Select Condition</option>
+                                <option value="Excellent">Excellent</option>
+                                <option value="Good">Good</option>
+                                <option value="Fair">Fair</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-rupee-sign"></i> Hourly Rate</label>
+                            <input type="number" id="equipmentRate" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-check-circle"></i> Availability Status</label>
+                            <select id="equipmentAvailability" required>
+                                <option value="Available">Available</option>
+                                <option value="Unavailable">Unavailable</option>
+                            </select>
+                        </div>
+                        <!-- Removed owner field as it should use OwnerID -->
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Equipment
+                    </button>
+                </form>
+            </div>
+
+            <div class="search-filter">
+                <input type="text" class="search-box" placeholder="🔍 Search equipment..." onkeyup="searchEquipment(this.value)">
+                <select class="filter-select" onchange="filterEquipment(this.value)">
+                    <option value="">All Types</option>
+                    <option value="Tractor">Tractor</option>
+                    <option value="Harvester">Harvester</option>
+                    <option value="Plough">Plough</option>
+                    <option value="Sprayer">Sprayer</option>
+                    <option value="Thresher">Thresher</option>
+                </select>
+            </div>
+
+            <div id="equipmentGrid" class="grid"></div>
+        </div>
+    </section>
+
+    <!-- Lending Section -->
+    <section id="lending" class="section">
+        <div class="container">
+            <h2 class="section-title">🤝 Lending Requests</h2>
+            
+            <div class="card">
+                <h3><i class="fas fa-handshake"></i> Request Equipment</h3>
+                <form id="lendingForm" onsubmit="addLendingRequest(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label><i class="fas fa-tractor"></i> Equipment</label>
+                            <select id="lendingEquipment" required>
+                                <option value="">Select Equipment</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-calendar"></i> Start Date</label>
+                            <input type="date" id="lendingStartDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-clock"></i> Duration (days)</label>
+                            <input type="number" id="lendingDuration" required>
+                        </div>
+                        <!-- Removed borrower field as it should use BorrowerID -->
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Submit Request
+                    </button>
+                </form>
+            </div>
+
+            <div id="lendingGrid" class="grid"></div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="section">
+        <div class="container">
+            <h2 class="section-title">⭐ Reviews & Feedback</h2>
+            
+            <div class="card">
+                <h3><i class="fas fa-star"></i> Write Review</h3>
+                <form id="reviewForm" onsubmit="addReview(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label><i class="fas fa-star"></i> Rating</label>
+                            <div class="stars" id="reviewStars">
+                                <i class="fas fa-star" onclick="setRating(1)"></i>
+                                <i class="fas fa-star" onclick="setRating(2)"></i>
+                                <i class="fas fa-star" onclick="setRating(3)"></i>
+                                <i class="fas fa-star" onclick="setRating(4)"></i>
+                                <i class="fas fa-star" onclick="setRating(5)"></i>
+                            </div>
+                        </div>
+                        <!-- Added review type field as per database schema -->
+                        <div class="form-group">
+                            <label><i class="fas fa-tags"></i> Review Type</label>
+                            <select id="reviewType" required>
+                                <option value="">Select Type</option>
+                                <option value="Farmer">Farmer</option>
+                                <option value="Equipment">Equipment</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-comment"></i> Feedback</label>
+                        <textarea id="reviewFeedback" rows="4" required></textarea>
+                    </div>
+                    <!-- Removed name field as it should use FromFarmerID -->
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Submit Review
+                    </button>
+                </form>
+            </div>
+
+            <div id="reviewsGrid" class="grid"></div>
+        </div>
+    </section>
+
+    <script>
+        // Data storage
+        let farmers = [];
+        let crops = [];
+        let queries = [];
+        let equipment = [];
+        let lendingRequests = [];
+        let reviews = [];
+        let selectedRating = 0;
+
+        // Navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Update nav links
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Farmers Functions
+        function addFarmer(event) {
+            event.preventDefault();
+            const farmer = {
+                id: Date.now(),
+                name: document.getElementById('farmerName').value,
+                location: document.getElementById('farmerLocation').value,
+                language: document.getElementById('farmerLanguage').value,
+                fieldSize: document.getElementById('farmerFieldSize').value,
+                contact: document.getElementById('farmerContact').value,
+                email: document.getElementById('farmerEmail').value || 'Not provided'
+            };
+            farmers.push(farmer);
+            document.getElementById('farmerForm').reset();
+            populateFarmersGrid();
+            alert('Welcome to FarmLink! Your farmer profile has been created successfully.');
+        }
+
+        function populateFarmersGrid() {
+            const grid = document.getElementById('farmersGrid');
+            grid.innerHTML = farmers.map(farmer => `
+                <div class="farmer-card">
+                    <h4><i class="fas fa-user"></i> ${farmer.name}</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> ${farmer.location}</p>
+                    <p><i class="fas fa-language"></i> ${farmer.language}</p>
+                    <p><i class="fas fa-expand-arrows-alt"></i> ${farmer.fieldSize} acres</p>
+                    <p><i class="fas fa-phone"></i> ${farmer.contact}</p>
+                    ${farmer.email && farmer.email !== 'Not provided' ? `<p><i class="fas fa-envelope"></i> ${farmer.email}</p>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function searchFarmers(query) {
+            const filtered = farmers.filter(farmer => 
+                farmer.name.toLowerCase().includes(query.toLowerCase()) ||
+                farmer.location.toLowerCase().includes(query.toLowerCase())
+            );
+            const grid = document.getElementById('farmersGrid');
+            grid.innerHTML = filtered.map(farmer => `
+                <div class="farmer-card">
+                    <h4><i class="fas fa-user"></i> ${farmer.name}</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> ${farmer.location}</p>
+                    <p><i class="fas fa-language"></i> ${farmer.language}</p>
+                    <p><i class="fas fa-expand-arrows-alt"></i> ${farmer.fieldSize} acres</p>
+                    <p><i class="fas fa-phone"></i> ${farmer.contact}</p>
+                </div>
+            `).join('');
+        }
+
+        // Crops Functions
+        function addCrop(event) {
+            event.preventDefault();
+            const crop = {
+                id: Date.now(),
+                name: document.getElementById('cropName').value,
+                category: document.getElementById('cropCategory').value
+            };
+            crops.push(crop);
+            document.getElementById('cropForm').reset();
+            populateCropsGrid();
+            updateDropdowns();
+        }
+
+        function populateCropsGrid() {
+            const grid = document.getElementById('cropsGrid');
+            grid.innerHTML = crops.map(crop => `
+                <div class="crop-card">
+                    <h4><i class="fas fa-leaf"></i> ${crop.name}</h4>
+                    <p><i class="fas fa-tags"></i> ${crop.category}</p>
+                </div>
+            `).join('');
+        }
+
+        // Queries Functions
+        function addQuery(event) {
+            event.preventDefault();
+            const query = {
+                id: Date.now(),
+                title: document.getElementById('queryTitle').value,
+                author: document.getElementById('queryAuthor').value,
+                cropType: document.getElementById('queryCropType').value,
+                description: document.getElementById('queryDescription').value,
+                date: new Date().toISOString().split('T')[0],
+                responses: []
+            };
+            queries.push(query);
+            document.getElementById('queryForm').reset();
+            populateQueriesGrid();
+        }
+
+        function populateQueriesGrid() {
+            const container = document.getElementById('queriesContainer');
+            container.innerHTML = queries.map(query => `
+                <div class="query-card">
+                    <div class="query-header">
+                        <div>
+                            <div class="query-title">${query.title}</div>
+                            <div class="query-meta">
+                                <span><i class="fas fa-user"></i> ${query.author}</span>
+                                <span><i class="fas fa-leaf"></i> ${query.cropType}</span>
+                                <span><i class="fas fa-calendar"></i> ${query.date}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="query-description">${query.description}</div>
+                    <div class="responses">
+                        ${query.responses.map(response => `
+                            <div class="response">
+                                <div class="response-author">${response.author}</div>
+                                <div>${response.text}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function searchQueries(query) {
+            const filtered = queries.filter(q => 
+                q.title.toLowerCase().includes(query.toLowerCase()) ||
+                q.description.toLowerCase().includes(query.toLowerCase())
+            );
+            const container = document.getElementById('queriesContainer');
+            container.innerHTML = filtered.map(query => `
+                <div class="query-card">
+                    <div class="query-header">
+                        <div>
+                            <div class="query-title">${query.title}</div>
+                            <div class="query-meta">
+                                <span><i class="fas fa-user"></i> ${query.author}</span>
+                                <span><i class="fas fa-leaf"></i> ${query.cropType}</span>
+                                <span><i class="fas fa-calendar"></i> ${query.date}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="query-description">${query.description}</div>
+                    <div class="responses">
+                        ${query.responses.map(response => `
+                            <div class="response">
+                                <div class="response-author">${response.author}</div>
+                                <div>${response.text}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Equipment Functions
+        function addEquipment(event) {
+            event.preventDefault();
+            const equip = {
+                id: Date.now(),
+                name: document.getElementById('equipmentName').value,
+                type: document.getElementById('equipmentType').value,
+                condition: document.getElementById('equipmentCondition').value,
+                rate: document.getElementById('equipmentRate').value,
+                owner: document.getElementById('equipmentOwner').value,
+                availability: document.getElementById('equipmentAvailability').value
+            };
+            equipment.push(equip);
+            document.getElementById('equipmentForm').reset();
+            populateEquipmentGrid();
+            updateDropdowns();
+        }
+
+        function populateEquipmentGrid() {
+            const grid = document.getElementById('equipmentGrid');
+            grid.innerHTML = equipment.map(equip => `
+                <div class="equipment-card">
+                    <h4><i class="fas fa-tractor"></i> ${equip.name}</h4>
+                    <p><i class="fas fa-cogs"></i> ${equip.type}</p>
+                    <p><i class="fas fa-star"></i> ${equip.condition}</p>
+                    <p><i class="fas fa-rupee-sign"></i> ₹${equip.rate}/hour</p>
+                    <p><i class="fas fa-user"></i> ${equip.owner}</p>
+                    <span class="status-badge ${equip.availability === 'Available' ? 'status-available' : 'status-unavailable'}">
+                        ${equip.availability}
+                    </span>
+                </div>
+            `).join('');
+        }
+
+        function searchEquipment(query) {
+            const filtered = equipment.filter(equip => 
+                equip.name.toLowerCase().includes(query.toLowerCase()) ||
+                equip.type.toLowerCase().includes(query.toLowerCase())
+            );
+            const grid = document.getElementById('equipmentGrid');
+            grid.innerHTML = filtered.map(equip => `
+                <div class="equipment-card">
+                    <h4><i class="fas fa-tractor"></i> ${equip.name}</h4>
+                    <p><i class="fas fa-cogs"></i> ${equip.type}</p>
+                    <p><i class="fas fa-star"></i> ${equip.condition}</p>
+                    <p><i class="fas fa-rupee-sign"></i> ₹${equip.rate}/hour</p>
+                    <p><i class="fas fa-user"></i> ${equip.owner}</p>
+                    <span class="status-badge ${equip.availability === 'Available' ? 'status-available' : 'status-unavailable'}">
+                        ${equip.availability}
+                    </span>
+                </div>
+            `).join('');
+        }
+
+        // Lending Functions
+        function addLendingRequest(event) {
+            event.preventDefault();
+            const request = {
+                id: Date.now(),
+                equipment: document.getElementById('lendingEquipment').value,
+                borrower: document.getElementById('lendingBorrower').value,
+                startDate: document.getElementById('lendingStartDate').value,
+                duration: document.getElementById('lendingDuration').value,
+                status: 'Pending'
+            };
+            lendingRequests.push(request);
+            document.getElementById('lendingForm').reset();
+            populateLendingGrid();
+        }
+
+        function populateLendingGrid() {
+            const grid = document.getElementById('lendingGrid');
+            grid.innerHTML = lendingRequests.map(request => `
+                <div class="lending-card">
+                    <h4><i class="fas fa-handshake"></i> Equipment Request</h4>
+                    <p><i class="fas fa-tractor"></i> ${request.equipment}</p>
+                    <p><i class="fas fa-user"></i> ${request.borrower}</p>
+                    <p><i class="fas fa-calendar"></i> ${request.startDate}</p>
+                    <p><i class="fas fa-clock"></i> ${request.duration} days</p>
+                    <span class="status-badge status-pending">${request.status}</span>
+                </div>
+            `).join('');
+        }
+
+        // Reviews Functions
+        function setRating(rating) {
+            selectedRating = rating;
+            const stars = document.querySelectorAll('#reviewStars i');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function addReview(event) {
+            event.preventDefault();
+            if (selectedRating === 0) {
+                alert('Please select a rating');
+                return;
+            }
+            const review = {
+                id: Date.now(),
+                name: document.getElementById('reviewName').value,
+                rating: selectedRating,
+                feedback: document.getElementById('reviewFeedback').value,
+                date: new Date().toISOString().split('T')[0]
+            };
+            reviews.push(review);
+            document.getElementById('reviewForm').reset();
+            selectedRating = 0;
+            document.querySelectorAll('#reviewStars i').forEach(star => star.classList.remove('active'));
+            populateReviewsGrid();
+        }
+
+        function populateReviewsGrid() {
+            const grid = document.getElementById('reviewsGrid');
+            grid.innerHTML = reviews.map(review => `
+                <div class="review-card">
+                    <div class="review-author">${review.name}</div>
+                    <div class="review-rating">
+                        ${Array(5).fill().map((_, i) => 
+                            `<i class="fas fa-star ${i < review.rating ? 'active' : ''}"></i>`
+                        ).join('')}
+                        <span>(${review.rating}/5)</span>
+                    </div>
+                    <div class="review-text">${review.feedback}</div>
+                    <small><i class="fas fa-calendar"></i> ${review.date}</small>
+                </div>
+            `).join('');
+        }
+
+        // Update dropdowns
+        function updateDropdowns() {
+            const cropSelect = document.getElementById('queryCropType');
+            const equipmentSelect = document.getElementById('lendingEquipment');
+            
+            if (cropSelect) {
+                cropSelect.innerHTML = '<option value="">Select Crop</option>' + 
+                    crops.map(crop => `<option value="${crop.name}">${crop.name}</option>`).join('');
+            }
+            
+            if (equipmentSelect) {
+                equipmentSelect.innerHTML = '<option value="">Select Equipment</option>' + 
+                    equipment.filter(e => e.availability === 'Available')
+                        .map(equip => `<option value="${equip.name}">${equip.name}</option>`).join('');
+            }
+        }
+
+        function initializeSampleData() {
+            farmers.push(
+                { 
+                    id: 1, 
+                    name: 'Rajesh Kumar Sharma', 
+                    location: 'Jaipur, Rajasthan', 
+                    language: 'Hindi', 
+                    fieldSize: '25', 
+                    contact: '+91-9876543210',
+                    email: 'rajesh.sharma@gmail.com'
+                },
+                { 
+                    id: 2, 
+                    name: 'Sunita Devi Patel', 
+                    location: 'Ahmedabad, Gujarat', 
+                    language: 'Gujarati', 
+                    fieldSize: '40', 
+                    contact: '+91-9876543211',
+                    email: 'sunita.patel@gmail.com'
+                },
+                { 
+                    id: 3, 
+                    name: 'Amit Singh Yadav', 
+                    location: 'Lucknow, Uttar Pradesh', 
+                    language: 'Hindi', 
+                    fieldSize: '15', 
+                    contact: '+91-9876543212',
+                    email: 'amit.yadav@gmail.com'
+                },
+                { 
+                    id: 4, 
+                    name: 'Priya Kumari', 
+                    location: 'Patna, Bihar', 
+                    language: 'Hindi', 
+                    fieldSize: '30', 
+                    contact: '+91-9876543213',
+                    email: 'priya.kumari@gmail.com'
+                }
+            );
+
+            crops.push(
+                { id: 1, name: 'Wheat', category: 'Grains' },
+                { id: 2, name: 'Rice', category: 'Grains' },
+                { id: 3, name: 'Tomato', category: 'Vegetables' },
+                { id: 4, name: 'Cotton', category: 'Cash Crops' }
+            );
+
+            queries.push(
+                {
+                    id: 1,
+                    title: 'Pest Control for Tomatoes',
+                    cropType: 'Tomato',
+                    description: 'My tomato plants are being affected by whiteflies. What organic methods can I use?',
+                    author: 'Sarah Wilson',
+                    date: '2024-01-15',
+                    responses: [
+                        {
+                            author: 'Dr. Robert Green',
+                            text: 'Try neem oil spray early morning or evening. Also, yellow sticky traps work well.',
+                            date: '2024-01-16'
+                        }
+                    ]
+                }
+            );
+
+            equipment.push(
+                {
+                    id: 1,
+                    name: 'John Deere 5050D',
+                    type: 'Tractor',
+                    condition: 'Excellent',
+                    rate: 50,
+                    availability: 'Available',
+                    owner: 'Mike Thompson'
+                },
+                {
+                    id: 2,
+                    name: 'Case IH Harvester',
+                    type: 'Harvester',
+                    condition: 'Good',
+                    rate: 80,
+                    availability: 'Unavailable',
+                    owner: 'Lisa Brown'
+                }
+            );
+
+            reviews.push(
+                {
+                    id: 1,
+                    name: 'Jennifer Davis',
+                    rating: 5,
+                    feedback: 'Excellent platform for farmers. Got great advice for my crop issues!',
+                    date: '2024-01-10'
+                },
+                {
+                    id: 2,
+                    name: 'Robert Miller',
+                    rating: 4,
+                    feedback: 'Very helpful community. Equipment sharing feature is fantastic.',
+                    date: '2024-01-12'
+                }
+            );
+
+            // Populate dropdowns and grids
+            populateFarmersGrid();
+            populateCropsGrid();
+            populateQueriesGrid();
+            populateEquipmentGrid();
+            populateReviewsGrid();
+            updateDropdowns();
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSampleData();
+            
+            // Add hover effects to cards
+            document.addEventListener('mouseover', function(e) {
+                if (e.target.closest('.farmer-card, .crop-card, .equipment-card, .lending-card, .review-card, .query-card')) {
+                    const card = e.target.closest('.farmer-card, .crop-card, .equipment-card, .lending-card, .review-card, .query-card');
+                    card.style.transform = 'translateY(-8px) scale(1.02)';
+                }
+            });
+            
+            document.addEventListener('mouseout', function(e) {
+                if (e.target.closest('.farmer-card, .crop-card, .equipment-card, .lending-card, .review-card, .query-card')) {
+                    const card = e.target.closest('.farmer-card, .crop-card, .equipment-card, .lending-card, .review-card, .query-card');
+                    card.style.transform = 'translateY(0) scale(1)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

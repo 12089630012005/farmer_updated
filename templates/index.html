@@ -1,0 +1,2903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farming Support System</title>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        
+
+        :root {
+            --primary-green: #1a5d1a;
+            --light-green: #4a7c59;
+            --accent-green: #7fb069;
+            --earthy-brown: #8b4513;
+            --warm-yellow: #ffd700;
+            --orange-accent: #ff8c00;
+            --cream-white: #faf8f3;
+            --soft-beige: #f5f5dc;
+        }
+
+        /* Align lending requests and actions neatly */
+        #lendingGrid .profile-card {
+            display: flex;
+            flex-direction: column;
+            gap: .4rem;
+        }
+        #lendingGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1rem;
+            align-items: start;
+        }
+        .lending-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+        .lending-section > h3 {
+            font-size: 1.1rem;
+            margin: 0 0 .75rem 0;
+        }
+        .lending-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: .75rem;
+        }
+        .card-actions {
+            display: flex;
+            gap: .5rem;
+            flex-wrap: wrap;
+            margin-top: .5rem;
+            justify-content: flex-end;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--cream-white) 0%, #f0f8e8 50%, var(--soft-beige) 100%);
+            color: #333;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Enhanced background with farming patterns */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(127, 176, 105, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(139, 69, 19, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Enhanced navigation with modern glass effect */
+        .navbar {
+            background: linear-gradient(135deg, 
+                rgba(34, 139, 34, 0.95) 0%, 
+                rgba(46, 125, 50, 0.95) 50%, 
+                rgba(27, 94, 32, 0.95) 100%);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0; /* remove side padding so logo sits at leftmost corner */
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* Enhanced logo icon with pulse animation */
+        .logo i {
+            font-size: 2rem;
+            background: linear-gradient(45deg, #4CAF50, #8BC34A, #CDDC39);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Center the main nav links (Home..Reviews) */
+        .nav-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        .nav-auth { /* right-most auth/login */
+            margin-left: 1rem;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 25px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Modern hover effects with glow */
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Subtle underline for active nav for better affordance */
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            bottom: 6px;
+            height: 2px;
+            background: linear-gradient(90deg, #ffd700, #7fb069);
+            border-radius: 2px;
+        }
+
+        .nav-links a i {
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links a:hover i {
+            transform: scale(1.2);
+        }
+
+        /* Enhanced hero section with farming imagery */
+        .hero {
+            height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bg-video {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+        }
+
+        .bg-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Remove global blur; keep slight darkening for contrast */
+            filter: brightness(0.7);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(26,93,26,0.35) 0%, rgba(74,124,89,0.35) 100%);
+            z-index: -1;
+        }
+
+        /* Remove emoji decorations on hero */
+        .hero::before,
+        .hero::after {
+            content: '';
+            display: none;
+        }
+
+        @keyframes float {
+            from { left: -100%; }
+            to { left: 100%; }
+        }
+
+        @keyframes float-reverse {
+            from { right: -100%; }
+            to { right: 100%; }
+        }
+
+        .hero-content {
+            padding: 2rem 2.5rem;
+            border-radius: 16px;
+            background: rgba(0,0,0,0.15);
+            /* Apply blur only inside the hero content area */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1s ease 0.2s both;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: 400;
+        }
+
+        /* Auth/Profile horizontal layout */
+        .profile-flex { display:flex; gap: 1.5rem; align-items: flex-start; }
+        .profile-flex > .card { flex: 1 1 50%; }
+        .profile-summary-inline { display:flex; gap:.6rem; flex-wrap:wrap; }
+        .profile-summary-inline p { 
+            display:inline-flex; 
+            align-items:center; 
+            gap:.35rem; 
+            margin:0; 
+            padding:.35rem .6rem; 
+            background:#f1f7f1; 
+            border:1px solid #e0efe0; 
+            border-radius:999px; 
+            color:#2e5e2e;
+            font-weight: 600;
+        }
+        @media (max-width: 900px) { .profile-flex { flex-direction: column; } }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Enhanced button styles with farming theme */
+        .btn-primary {
+            background: var(--warm-yellow);
+            color: var(--primary-green);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ffd700 0%, #ffb300 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 16px 36px rgba(255, 179, 0, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(127, 176, 105, 0.12);
+            color: var(--primary-green);
+            border: 2px solid var(--accent-green);
+            box-shadow: 0 8px 25px rgba(127, 176, 105, 0.18);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(127, 176, 105, 0.22);
+            color: var(--primary-green);
+            transform: translateY(-3px);
+            box-shadow: 0 18px 40px rgba(127, 176, 105, 0.35);
+            border-color: var(--accent-green);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Enhanced section titles with farming icons */
+        .section-title {
+            font-size: 3rem;
+            color: var(--primary-green);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            font-weight: 700;
+        }
+
+        .section-title::before {
+            content: '🌾';
+            position: absolute;
+            left: -60px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2.5rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .section-title::after {
+            content: '🌾';
+            position: absolute;
+            right: -60px;
+            top: 50%;
+            transform: translateY(-50%) scaleX(-1);
+            font-size: 2.5rem;
+            animation: bounce 2s ease-in-out infinite 0.5s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-60%) scale(1.1); }
+        }
+
+        /* Enhanced cards with farming theme */
+        .card {
+            background: linear-gradient(145deg, white 0%, #fafafa 100%);
+            border-radius: 20px;
+            padding: 2.25rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.10);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(127, 176, 105, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-accent);
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 44px rgba(0,0,0,0.16);
+            border-color: rgba(127, 176, 105, 0.45);
+        }
+
+        .card h3 {
+            color: var(--primary-green);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        /* Add farming icons to card titles */
+        .card h3::before {
+            content: '🌱';
+            font-size: 1.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--primary-green);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Enhanced form inputs with farming theme */
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.9rem 1.15rem;
+            border: 2px solid #e6f2e6;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: linear-gradient(145deg, white 0%, #fafafa 100%);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #7fb069;
+            box-shadow: 0 0 0 3px rgba(127, 176, 105, 0.25);
+            transform: translateY(-1px);
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2.5rem;
+        }
+
+        /* Enhanced profile cards with Indian farming theme */
+        .profile-card {
+            background: linear-gradient(145deg, white 0%, #f8fdf8 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(127, 176, 105, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(127, 176, 105, 0.1) 0%, transparent 70%);
+            transform: rotate(45deg);
+            transition: all 0.4s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--accent-green);
+        }
+
+        .profile-card:hover::before {
+            transform: rotate(45deg) scale(1.2);
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 8px 25px rgba(127, 176, 105, 0.4);
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-card p {
+            margin-bottom: 0.8rem;
+            color: #666;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .profile-card p i {
+            color: var(--accent-green);
+            width: 20px;
+        }
+
+        /* Search and Filter */
+        .search-filter {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e8f5e8;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            background: white;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 4px rgba(127, 176, 105, 0.2);
+        }
+
+        .filter-select {
+            padding: 1rem 1.5rem;
+            border: 2px solid #e8f5e8;
+            border-radius: 30px;
+            background: white;
+            font-size: 1.1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 4px rgba(127, 176, 105, 0.2);
+        }
+
+        /* Compact query list styling */
+        .query-card {
+            background: linear-gradient(145deg, white 0%, #f8fdf8 100%);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(127, 176, 105, 0.15);
+            padding: 1rem;
+        }
+
+        .query-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 34px rgba(0,0,0,0.12);
+            border-color: rgba(127, 176, 105, 0.45);
+        }
+
+        .query-list { display: flex; flex-direction: column; gap: .75rem; }
+        .query-card--compact { display: grid; grid-template-columns: 72px 1fr; gap: 1rem; align-items: center; }
+        .query-thumb { width: 72px; height: 72px; border-radius: 10px; background: #eef6ee; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+        .query-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .query-meta-small { display:flex; gap:.5rem; align-items:center; margin-bottom:.25rem; color:#5a7a5a; font-size:.85rem; }
+        .badge { display:inline-block; padding:.2rem .6rem; border-radius:12px; font-size:.75rem; font-weight:600; }
+        .badge-expert { background:#fff3cd; color:#8a6d3b; border:1px solid #ffe08a; }
+        .badge-crop { background:#e8f5e8; color:#1a5d1a; border:1px solid #cfe9cf; }
+        .query-title-small { font-size:1rem; color:#1a3d1a; font-weight:700; margin:0; }
+        .query-subtitle { font-size:.9rem; color:#555; margin-top:.15rem; }
+
+        .query-image {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .query-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/placeholder.svg?height=250&width=400') center/cover;
+            opacity: 0.8;
+        }
+
+        .query-content {
+            padding: 2rem;
+        }
+
+        /* Square response items under each query */
+        .response-item {
+            text-align: left;
+            margin: 0.5rem 0;
+            padding: 0.8rem 1rem;
+            border: 1px solid #e0e7e0;
+            border-radius: 8px;
+            background: #ffffff;
+        }
+
+        /* Mini squares grid like farmer cards */
+        .mini-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .mini-card {
+            background: #ffffff;
+            border: 1px solid #e8f5e8;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+        }
+
+        .mini-card h5 {
+            color: var(--primary-green);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .mini-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .query-content h4 {
+            font-size: 1.4rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .query-tags {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(127, 176, 105, 0.3);
+        }
+
+        /* Equipment Cards */
+        .equipment-card {
+            background: linear-gradient(145deg, white 0%, #f8fdf8 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(127, 176, 105, 0.1);
+        }
+
+        .equipment-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--accent-green);
+        }
+
+        .equipment-image {
+            width: 100%;
+            height: 220px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            position: relative;
+        }
+
+        .equipment-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/placeholder.svg?height=220&width=350') center/cover;
+            opacity: 0.15; /* lower overlay so the icon is clearly visible */
+        }
+
+        .equipment-info {
+            padding: 2rem;
+        }
+
+        .equipment-info h4 {
+            font-size: 1.4rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 0.45rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .status-available {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            box-shadow: 0 4px 15px rgba(21, 87, 36, 0.2);
+        }
+
+        .status-unavailable {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
+            box-shadow: 0 4px 15px rgba(114, 28, 36, 0.2);
+        }
+
+        /* Enhanced reviews with Indian farming context */
+        .review-card {
+            background: linear-gradient(145deg, white 0%, #f8fdf8 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(127, 176, 105, 0.1);
+            position: relative;
+        }
+
+        .review-card::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 4rem;
+            color: var(--accent-green);
+            opacity: 0.3;
+            font-family: serif;
+        }
+
+        .review-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--accent-green);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .review-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(127, 176, 105, 0.3);
+        }
+
+        .stars {
+            color: var(--warm-yellow);
+            font-size: 1.4rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .stars i {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .stars i:hover {
+            transform: scale(1.2);
+        }
+
+        /* Mobile menu styling */
+        .mobile-menu {
+            display: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .section-title::before,
+            .section-title::after {
+                display: none;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-filter {
+                flex-direction: column;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive navigation */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .nav-container {
+                padding: 0 1rem;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Add loading animation for better UX */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Updated navigation with English-only branding -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                {{ _('FarmSupport Pro') }}
+            </div>
+            <ul class="nav-links nav-center">
+                <li><a href="#" onclick="showSection('home')" class="active"><i class="fas fa-home"></i> {{ _('Home') }}</a></li>
+                <li><a href="#" onclick="showSection('farmers')"><i class="fas fa-users"></i> {{ _('Farmers') }}</a></li>
+                <li><a href="#" onclick="showSection('crops')"><i class="fas fa-leaf"></i> {{ _('Crops') }}</a></li>
+                <li><a href="#" onclick="showSection('queries')"><i class="fas fa-question-circle"></i> {{ _('Queries') }}</a></li>
+                <li><a href="#" onclick="showSection('equipment')"><i class="fas fa-tractor"></i> {{ _('Equipment') }}</a></li>
+                <li><a href="#" onclick="showSection('lending')"><i class="fas fa-handshake"></i> {{ _('Lending') }}</a></li>
+                <li><a href="#" onclick="showSection('reviews')"><i class="fas fa-star"></i> {{ _('Reviews') }}</a></li>
+            </ul>
+            <ul class="nav-links nav-auth">
+                <li><a id="authNavLink" href="#" onclick="showSection('auth')"><i class="fas fa-user-circle"></i> {{ _('Login') }}</a></li>
+            </ul>
+            <div>
+                <select id="langSelect" class="filter-select" style="min-width:140px">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="mr">मराठी</option>
+                    <option value="ta">தமிழ்</option>
+                </select>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="section active">
+        <div class="hero">
+            <div class="bg-video">
+                <video src="/landing_video" autoplay muted loop playsinline></video>
+            </div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>{{ _('Grow Better. Together.') }}</h1>
+                <p>{{ _('Knowledge, equipment, and support for every farmer — all in one place.') }}</p>
+                <div class="cta-buttons">
+                    <a href="#" onclick="showSection('farmers')" class="btn btn-primary">
+                        <i class="fas fa-users"></i> {{ _('Join Community') }}
+                    </a>
+                    <a href="#" onclick="showSection('queries')" class="btn btn-secondary">
+                        <i class="fas fa-question-circle"></i> {{ _('Ask a Query') }}
+                    </a>
+                </div>
+            </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Farmers Section -->
+    <section id="farmers" class="section">
+        <div class="container">
+            <h2 class="section-title">{{ _('Farmers Community') }}</h2>
+            
+            <!-- Add New Farmer form moved to Profile section -->
+
+            <div class="search-filter">
+                <input type="text" class="search-box" placeholder="{{ _('🔍 Search farmers...') }}" id="farmerSearch">
+                <select class="filter-select" id="farmerLocationFilter">
+                    <option value="">{{ _('All Locations') }}</option>
+                </select>
+            </div>
+
+            <div class="grid" id="farmersGrid">
+                <!-- Farmers will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Crops Section -->
+    <section id="crops" class="section">
+        <div class="container">
+            <h2 class="section-title">{{ _('Crop Types') }}</h2>
+            
+            <div class="card">
+                <h3>{{ _('Add New Crop Type') }}</h3>
+                <form id="cropForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>{{ _('Crop Name') }}</label>
+                            <input type="text" id="cropName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Category') }}</label>
+                            <select id="cropCategory" required>
+                                <option value="">{{ _('Select Category') }}</option>
+                                <option value="Grains">{{ _('Grains') }}</option>
+                                <option value="Vegetables">{{ _('Vegetables') }}</option>
+                                <option value="Fruits">{{ _('Fruits') }}</option>
+                                <option value="Legumes">{{ _('Legumes') }}</option>
+                                <option value="Pulses">{{ _('Pulses') }}</option>
+                                <option value="Cash Crops">{{ _('Cash Crops') }}</option>
+                                <option value="Oilseeds">{{ _('Oilseeds') }}</option>
+                                <option value="Spices">{{ _('Spices') }}</option>
+                                <option value="Flowers">{{ _('Flowers') }}</option>
+                                <option value="Fiber">{{ _('Fiber') }}</option>
+                                <option value="Plantation">{{ _('Plantation') }}</option>
+                                <option value="Medicinal">{{ _('Medicinal') }}</option>
+                                <option value="Fodder">{{ _('Fodder') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">{{ _('Add Crop') }}</button>
+                </form>
+            </div>
+
+            <div class="grid" id="cropsGrid">
+                <!-- Crops will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Queries Section -->
+    <section id="queries" class="section">
+        <div class="container">
+            <h2 class="section-title">{{ _('Farmer Queries') }}</h2>
+            
+            <div class="card">
+                <h3>{{ _('Post New Query') }}</h3>
+                <form id="queryForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>{{ _('Title') }}</label>
+                            <input type="text" id="queryTitle" required 
+                                   placeholder="{{ _('Enter query title in your preferred language') }}"
+                                   style="font-family: 'Noto Sans', Arial, sans-serif;">
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Crop Type') }}</label>
+                            <select id="queryCropType" required>
+                                <option value="">{{ _('Select Crop') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>{{ _('Description') }}</label>
+                        <textarea id="queryDescription" rows="4" required 
+                                  placeholder="{{ _('Describe your query in your preferred language') }}"
+                                  style="font-family: 'Noto Sans', Arial, sans-serif;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>{{ _('Image') }}</label>
+                        <input type="file" id="queryImage" accept="image/*">
+                    </div>
+                    
+                    <!-- Voice Input Section -->
+                    <div class="form-group">
+                        <label>{{ _('Voice Query') }}</label>
+                        <div style="display: flex; gap: 1rem; align-items: center; margin-top: 0.5rem;">
+                            <button type="button" id="voiceBtn" class="btn btn-secondary" style="background: #28a745; border-color: #28a745; color: white; padding: 0.8rem 1.5rem; border-radius: 50px; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-microphone" id="micIcon"></i>
+                                <span id="micText">{{ _('Start Recording') }}</span>
+                            </button>
+                            <audio id="voicePreview" controls style="display: none; flex: 1;"></audio>
+                            <button type="button" id="clearVoice" class="btn btn-secondary" style="display: none; background: #dc3545; border-color: #dc3545; color: white;">
+                                <i class="fas fa-trash"></i> {{ _('Clear') }}
+                            </button>
+                        </div>
+                        <small style="color: #666; margin-top: 0.5rem; display: block;">{{ _('Click the microphone to record your query in your preferred language') }}</small>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">{{ _('Post Query') }}</button>
+                </form>
+            </div>
+
+            <div class="search-filter">
+                <input type="text" class="search-box" placeholder="{{ _('Search queries...') }}" id="querySearch">
+                <select class="filter-select" id="queryCropFilter">
+                    <option value="">{{ _('All Crops') }}</option>
+                </select>
+            </div>
+
+            <div id="queriesGrid">
+                <!-- Queries will be populated here -->
+            </div>
+
+            
+
+            <!-- Global response form removed; responses are now per query item -->
+        </div>
+    </section>
+
+    <!-- Equipment Section -->
+    <section id="equipment" class="section">
+        <div class="container">
+            <h2 class="section-title">{{ _('Equipment') }}</h2>
+            
+            <div class="card">
+                <h3>{{ _('Add New Equipment') }}</h3>
+                <form id="equipmentForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>{{ _('Equipment Name') }}</label>
+                            <input type="text" id="equipmentName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Type') }}</label>
+                            <select id="equipmentType" required>
+                                <option value="">{{ _('Select Type') }}</option>
+                                <option value="Tractor">{{ _('Tractor') }}</option>
+                                <option value="Harvester">{{ _('Harvester') }}</option>
+                                <option value="Plough">{{ _('Plough') }}</option>
+                                <option value="Sprayer">{{ _('Sprayer') }}</option>
+                                <option value="Thresher">{{ _('Thresher') }}</option>
+                                <option value="Cultivator">{{ _('Cultivator') }}</option>
+                                <option value="Seeder">{{ _('Seeder') }}</option>
+                                <option value="Rotavator">{{ _('Rotavator') }}</option>
+                                <option value="Irrigation Pump">{{ _('Irrigation Pump') }}</option>
+                                <option value="Trailer">{{ _('Trailer') }}</option>
+                                <option value="Baler">{{ _('Baler') }}</option>
+                                <option value="Combine">{{ _('Combine') }}</option>
+                                <option value="Power Tiller">{{ _('Power Tiller') }}</option>
+                                <option value="Drone Sprayer">{{ _('Drone Sprayer') }}</option>
+                                <option value="Weeder">{{ _('Weeder') }}</option>
+                                <option value="Sprinkler">{{ _('Sprinkler') }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Condition') }}</label>
+                            <select id="equipmentCondition" required>
+                                <option value="">{{ _('Select Condition') }}</option>
+                                <option value="Excellent">{{ _('Excellent') }}</option>
+                                <option value="Good">{{ _('Good') }}</option>
+                                <option value="Fair">{{ _('Fair') }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Hourly Rate (₹)') }}</label>
+                            <input type="number" id="equipmentRate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Availability') }}</label>
+                            <select id="equipmentAvailability" required>
+                                <option value="Available">{{ _('Available') }}</option>
+                                <option value="Unavailable">{{ _('Unavailable') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">{{ _('Add Equipment') }}</button>
+                </form>
+            </div>
+
+            <div class="search-filter">
+                <input type="text" class="search-box" placeholder="{{ _('Search equipment...') }}" id="equipmentSearch">
+                <select class="filter-select" id="equipmentTypeFilter">
+                    <option value="">{{ _('All Types') }}</option>
+                    <option value="Tractor">{{ _('Tractor') }}</option>
+                    <option value="Harvester">{{ _('Harvester') }}</option>
+                    <option value="Plough">Plough</option>
+                    <option value="Sprayer">Sprayer</option>
+                    <option value="Thresher">Thresher</option>
+                    <option value="Cultivator">Cultivator</option>
+                    <option value="Seeder">Seeder</option>
+                    <option value="Rotavator">Rotavator</option>
+                    <option value="Irrigation Pump">Irrigation Pump</option>
+                    <option value="Trailer">Trailer</option>
+                    <option value="Baler">Baler</option>
+                    <option value="Combine">Combine</option>
+                    <option value="Power Tiller">Power Tiller</option>
+                    <option value="Drone Sprayer">Drone Sprayer</option>
+                    <option value="Weeder">Weeder</option>
+                    <option value="Sprinkler">Sprinkler</option>
+                </select>
+            </div>
+
+            <div class="card" style="margin-top:1rem;">
+                <h3>{{ _('My Equipment') }}</h3>
+                <div class="grid" id="myEquipmentGrid"></div>
+            </div>
+
+            <div class="card" style="margin-top:1rem;">
+                <h3>{{ _('Available from Others') }}</h3>
+                <div class="grid" id="otherEquipmentGrid"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lending Section -->
+    <section id="lending" class="section">
+        <div class="container">
+            <h2 class="section-title">{{ _('Equipment Lending') }}</h2>
+            
+            <div class="card">
+                <h3>{{ _('Request Equipment') }}</h3>
+                <form id="lendingForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>{{ _('Equipment') }}</label>
+                            <select id="lendingEquipment" required>
+                                <option value="">{{ _('Select Equipment') }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Borrower') }}</label>
+                            <select id="lendingBorrower" required disabled>
+                                <option value="">{{ _('Select Borrower') }}</option>
+                            </select>
+                            <small style="display:block;color:#666;">{{ _('Auto-set to your account') }}</small>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Start Date') }}</label>
+                            <input type="date" id="lendingStartDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Duration (days)') }}</label>
+                            <input type="number" id="lendingDuration" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">{{ _('Submit Request') }}</button>
+                </form>
+            </div>
+
+            <div class="grid" id="lendingGrid">
+                <!-- Lending requests will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="section">
+        <div class="container">
+            <h2 class="section-title">{{ _('Reviews & Feedback') }}</h2>
+            <div class="card">
+                <h3>{{ _('Add Review') }}</h3>
+                <form id="reviewForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>{{ _('From (Reviewer)') }}</label>
+                            <select id="reviewFrom" required disabled>
+                                <option value="">{{ _('Select Farmer') }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('To (Review Target)') }}</label>
+                            <select id="reviewTo" required>
+                                <option value="">{{ _('Select Farmer') }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Type') }}</label>
+                            <select id="reviewType" required>
+                                <option value="Farmer">{{ _('Farmer') }}</option>
+                                <option value="Equipment">{{ _('Equipment') }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Rating') }}</label>
+                            <div id="reviewStars" class="stars" aria-label="Rating" style="user-select:none;">
+                                <i class="far fa-star" data-value="1"></i>
+                                <i class="far fa-star" data-value="2"></i>
+                                <i class="far fa-star" data-value="3"></i>
+                                <i class="far fa-star" data-value="4"></i>
+                                <i class="far fa-star" data-value="5"></i>
+                            </div>
+                            <input type="hidden" id="reviewRatingValue" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>{{ _('Feedback') }}</label>
+                        <textarea id="reviewFeedback" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">{{ _('Submit Review') }}</button>
+                </form>
+            </div>
+
+            <div class="grid" id="reviewsGrid">
+                <!-- Reviews will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Auth/Profile Section -->
+    <section id="auth" class="section">
+        <div class="auth-hero">
+            <div class="container">
+            <h2 class="section-title">{{ _('Login / Profile') }}</h2>
+            <div class="profile-flex">
+
+            <div class="card" id="authCard">
+                <h3>{{ _('Sign In or Create Account') }}</h3>
+                <form id="authForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>{{ _('Email') }}</label>
+                            <input type="email" id="authEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Password') }}</label>
+                            <input type="password" id="authPassword" minlength="6" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">{{ _('Login') }}</button>
+                    <button type="button" id="signupBtn" class="btn btn-secondary" style="margin-left:1rem;">{{ _('Sign Up') }}</button>
+                </form>
+            </div>
+
+            <div class="card" id="profileCard" style="display:none;">
+                <h3>{{ _('Your Profile') }}</h3>
+                <form id="profileForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>{{ _('Name') }}</label>
+                            <input type="text" id="profileName" required 
+                                   placeholder="{{ _('Enter your name in your preferred language') }}"
+                                   style="font-family: 'Noto Sans', Arial, sans-serif;">
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Location') }}</label>
+                            <input type="text" id="profileLocation" 
+                                   placeholder="{{ _('Enter your location in your preferred language') }}"
+                                   style="font-family: 'Noto Sans', Arial, sans-serif;">
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Phone') }}</label>
+                            <input type="text" id="profilePhone">
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Language') }}</label>
+                            <select id="profileLanguage">
+                                <option value="">{{ _('Select Language') }}</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="English">English</option>
+                                <option value="Punjabi">Punjabi</option>
+                                <option value="Marathi">Marathi</option>
+                                <option value="Tamil">Tamil</option>
+                                <option value="Telugu">Telugu</option>
+                                <option value="Bengali">Bengali</option>
+                                <option value="Gujarati">Gujarati</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ _('Field Size (acres)') }}</label>
+                            <input type="number" id="profileFieldSize" placeholder="Enter field size">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">{{ _('Save Profile') }}</button>
+                    <button type="button" id="logoutBtn" class="btn btn-secondary" style="margin-left:1rem;">{{ _('Logout') }}</button>
+                </form>
+                <div id="profileSummary" class="card" style="margin-top:1rem; display:none;">
+                    <h3 style="margin-bottom:1rem;">{{ _('Saved Details') }}</h3>
+                    <div id="profileSummaryContent" class="profile-summary-inline"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // ==========================
+        // FIREBASE INIT
+        // ==========================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDLF4rsoR9Cyn1Q52idPiHAxbwb7MG_4Hw",
+            authDomain: "agridbms.firebaseapp.com",
+            projectId: "agridbms",
+            storageBucket: "agridbms.appspot.com",
+            messagingSenderId: "1024691009915",
+            appId: "1:1024691009915:web:9d821137f16c8debdde5de",
+            measurementId: "G-XXGTL4964Y"
+        };
+        try {
+            firebase.initializeApp(firebaseConfig);
+            var auth = firebase.auth();
+            var db = firebase.firestore();
+        } catch (e) {
+            console.warn('Firebase init skipped. Add your config to enable Auth/Firestore.');
+        }
+        // --- Navigation ---
+        function showSection(sectionName) {
+            // Hide all sections strictly
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+                section.style.display = 'none';
+            });
+            // Determine target section (respect auth guard)
+            let targetId = sectionName;
+            try {
+                if (sectionName !== 'auth' && typeof auth !== 'undefined' && !auth.currentUser) {
+                    targetId = 'auth';
+                }
+            } catch (e) {}
+            const target = document.getElementById(targetId);
+            if (target) {
+                target.classList.add('active');
+                target.style.display = 'block';
+            }
+            // Update nav highlight if possible
+            try {
+                document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
+                const match = Array.from(document.querySelectorAll('.nav-links a')).find(a => (a.getAttribute('onclick')||'').includes(`'${sectionName}'`));
+                if (match) match.classList.add('active');
+            } catch (e) {}
+            // Ensure top of page
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            // Re-initialize stars when opening Reviews
+            if (sectionName === 'reviews') {
+                try { initReviewStars(); } catch (e) {}
+            }
+        }
+
+        // Make star rating globally available (outside showSection)
+        function initReviewStars() {
+            const starsWrap = document.getElementById('reviewStars');
+            const hidden = document.getElementById('reviewRatingValue');
+            if (!starsWrap || !hidden) return;
+            const stars = Array.from(starsWrap.querySelectorAll('i[data-value]'));
+            const setVisual = (val) => {
+                stars.forEach(i => {
+                    const v = Number(i.getAttribute('data-value'));
+                    i.classList.toggle('fas', v <= val);
+                    i.classList.toggle('far', v > val);
+                    i.style.color = v <= val ? 'var(--warm-yellow)' : '';
+                });
+            };
+            stars.forEach(i => {
+                i.addEventListener('mouseenter', () => setVisual(Number(i.getAttribute('data-value'))));
+                i.addEventListener('mouseleave', () => setVisual(Number(hidden.value || 0)));
+                i.addEventListener('click', () => {
+                    hidden.value = String(i.getAttribute('data-value'));
+                    setVisual(Number(hidden.value));
+                });
+            });
+            // reset visual on form reset
+            document.getElementById('reviewForm')?.addEventListener('reset', () => {
+                hidden.value = '';
+                setVisual(0);
+            });
+            // initialize once
+            setVisual(Number(hidden.value || 0));
+        }
+
+        // ==========================
+        // AUTH / PROFILE LOGIC
+        // ==========================
+        const authForm = document.getElementById('authForm');
+        const signupBtn = document.getElementById('signupBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const profileForm = document.getElementById('profileForm');
+        const authCard = document.getElementById('authCard');
+        const profileCard = document.getElementById('profileCard');
+        let currentFarmerId = null;
+
+        function setAuthUI(user) {
+            if (user) {
+                authCard.style.display = 'none';
+                profileCard.style.display = 'block';
+                loadUserProfile(user.uid);
+                // Update nav label to Profile when logged in
+                const authLink = document.getElementById('authNavLink');
+                if (authLink) {
+                    authLink.innerHTML = '<i class="fas fa-user-circle"></i> Profile';
+                }
+                // Preselect logged-in user in responder and review dropdowns
+                setTimeout(() => {
+                    const responderSelect = document.getElementById('responseResponder');
+                    const reviewFrom = document.getElementById('reviewFrom');
+                    if (responderSelect) responderSelect.value = user.uid; // assumes FarmerID == uid if mapped; else leave for name match
+                    if (reviewFrom && currentFarmerId) { reviewFrom.value = String(currentFarmerId); reviewFrom.disabled = true; }
+                }, 300);
+            } else {
+                authCard.style.display = 'block';
+                profileCard.style.display = 'none';
+                // Update nav label to Login when logged out
+                const authLink = document.getElementById('authNavLink');
+                if (authLink) {
+                    authLink.innerHTML = '<i class="fas fa-user-circle"></i> Login';
+                }
+                // Clear and disable reviewer select when logged out
+                const reviewFrom = document.getElementById('reviewFrom');
+                if (reviewFrom) { reviewFrom.value = ''; reviewFrom.disabled = true; }
+                // Ensure only the auth section is visible when logged out
+                try { showSection('auth'); } catch (e) {}
+            }
+        }
+
+        if (typeof auth !== 'undefined') {
+            auth.onAuthStateChanged(async (user) => {
+                if (user) {
+                    // Restore currentFarmerId from Firebase or MySQL
+                    await ensureFarmerExistsAndSetDefaults();
+                    // Reload all data with correct currentFarmerId
+                    await Promise.all([
+                        loadFarmers(),
+                        loadCrops(),
+                        loadQueries(),
+                        loadEquipment(),
+                        loadLendingEquipment(),
+                        loadLendingBorrowers(),
+                        loadFarmersForLending(),
+                        loadLendingRequestsUI()
+                    ]);
+                }
+                setAuthUI(user);
+            });
+        }
+
+        authForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            if (!auth) { alert('Firebase not configured.'); return; }
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                alert('Logged in');
+                // After login, ensure a Farmers row exists and redirect to Farmers
+                await ensureFarmerExistsAndSetDefaults();
+                showSection('farmers');
+            } catch (err) {
+                alert(err.message);
+            }
+        });
+
+        signupBtn?.addEventListener('click', async () => {
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            if (!auth) { alert('Firebase not configured.'); return; }
+            try {
+                const cred = await auth.createUserWithEmailAndPassword(email, password);
+                await db.collection('profiles').doc(cred.user.uid).set({
+                    email,
+                    name: '',
+                    location: '',
+                    phone: ''
+                });
+                alert('Account created');
+                await ensureFarmerExistsAndSetDefaults();
+                showSection('farmers');
+            } catch (err) {
+                alert(err.message);
+            }
+        });
+
+        async function ensureFarmerExistsAndSetDefaults() {
+            try {
+                const user = auth.currentUser;
+                if (!user) return;
+                
+                // First, try to restore from Firestore cache
+                if (db) {
+                    try {
+                        const doc = await db.collection('profiles').doc(user.uid).get();
+                        if (doc.exists && doc.data().farmerID) {
+                            currentFarmerId = doc.data().farmerID;
+                            console.log('✅ Restored FarmerID from cache:', currentFarmerId);
+                            
+                            // Update all dropdowns immediately
+                            const responderSelect = document.getElementById('responseResponder');
+                            const reviewFrom = document.getElementById('reviewFrom');
+                            const borrowerSelect = document.getElementById('lendingBorrower');
+                            if (responderSelect) responderSelect.value = currentFarmerId;
+                            if (reviewFrom) reviewFrom.value = currentFarmerId;
+                            if (borrowerSelect) borrowerSelect.value = currentFarmerId;
+                            return; // Early exit if cached
+                        }
+                    } catch (e) {
+                        console.warn('Firestore cache check failed', e);
+                    }
+                }
+                
+                // Try to find farmer by contact_info = email using optimized endpoint
+                let currentFarmer = null;
+                try {
+                    const res = await fetch(`/get_farmer_by_email?email=${encodeURIComponent(user.email)}`);
+                    if (res.ok) {
+                        currentFarmer = await res.json();
+                    }
+                } catch (e) {
+                    console.warn('Direct lookup failed, falling back to full list', e);
+                }
+
+                // Fallback: search all farmers
+                if (!currentFarmer) {
+                    const res = await fetch('/get_farmers');
+                    const farmers = await res.json();
+                    currentFarmer = farmers.find(f => f.contact_info === user.email);
+                }
+
+                // If not found, create a farmer with minimal info
+                if (!currentFarmer) {
+                    const payload = {
+                        name: user.displayName || (user.email ? user.email.split('@')[0] : 'User'),
+                        location: '',
+                        language: 'English',
+                        field_size: 0,
+                        contact_info: user.email || ('uid:' + user.uid)
+                    };
+                    const addRes = await fetch('/add_farmer', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    await addRes.json();
+                    // Reload to capture new ID
+                    const res2 = await fetch(`/get_farmer_by_email?email=${encodeURIComponent(payload.contact_info)}`);
+                    if (res2.ok) {
+                        currentFarmer = await res2.json();
+                    }
+                }
+
+                // Default dropdowns and set currentFarmerId
+                if (currentFarmer && currentFarmer.FarmerID) {
+                    currentFarmerId = currentFarmer.FarmerID;
+                    console.log('✅ Logged in as FarmerID:', currentFarmerId, '(', currentFarmer.name, ')');
+                    
+                    // Store mapping in Firestore for persistence
+                    if (db) {
+                        try {
+                            await db.collection('profiles').doc(user.uid).set({
+                                farmerID: currentFarmerId,
+                                email: user.email,
+                                name: currentFarmer.name
+                            }, { merge: true });
+                        } catch (e) {
+                            console.warn('Failed to store farmerID in Firestore', e);
+                        }
+                    }
+                    
+                    // Update all dropdowns
+                    const responderSelect = document.getElementById('responseResponder');
+                    const reviewFrom = document.getElementById('reviewFrom');
+                    const borrowerSelect = document.getElementById('lendingBorrower');
+                    if (responderSelect) responderSelect.value = currentFarmerId;
+                    if (reviewFrom) reviewFrom.value = currentFarmerId;
+                    if (borrowerSelect) borrowerSelect.value = currentFarmerId;
+                }
+            } catch (e) {
+                console.warn('ensureFarmerExists error', e);
+            }
+        }
+
+        logoutBtn?.addEventListener('click', async () => {
+            if (!auth) { return; }
+            await auth.signOut();
+            currentFarmerId = null; // Clear on logout
+            alert('Logged out');
+            showSection('home');
+        });
+
+        async function loadUserProfile(uid) {
+            if (!db) { return; }
+            const doc = await db.collection('profiles').doc(uid).get();
+            if (doc.exists) {
+                const p = doc.data();
+                
+                // Restore currentFarmerId from Firestore if available
+                if (p.farmerID && !currentFarmerId) {
+                    currentFarmerId = p.farmerID;
+                    console.log('✅ Restored FarmerID from Firestore:', currentFarmerId);
+                }
+                
+                document.getElementById('profileName').value = p.name || '';
+                document.getElementById('profileLocation').value = p.location || '';
+                document.getElementById('profilePhone').value = p.phone || '';
+                const profLang = document.getElementById('profileLanguage');
+                if (profLang) profLang.value = p.language || '';
+                const profSize = document.getElementById('profileFieldSize');
+                if (profSize) profSize.value = p.field_size || '';
+            }
+        }
+
+        profileForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!auth || !db) { alert('Firebase not configured.'); return; }
+            const user = auth.currentUser;
+            if (!user) { alert('Not logged in'); return; }
+            const profile = {
+                name: document.getElementById('profileName').value,
+                location: document.getElementById('profileLocation').value,
+                phone: document.getElementById('profilePhone').value,
+                language: document.getElementById('profileLanguage')?.value || 'English',
+                field_size: Number(document.getElementById('profileFieldSize')?.value || 0),
+                email: user.email
+            };
+            await db.collection('profiles').doc(user.uid).set(profile, { merge: true });
+            try {
+                // Ensure farmer exists and then update it
+                await ensureFarmerExistsAndSetDefaults();
+                const farmersRes = await fetch('/get_farmers');
+                const farmers = await farmersRes.json();
+                const currentFarmer = farmers.find(f => f.contact_info === (user.email || ('uid:' + user.uid)));
+                if (currentFarmer) {
+                    await fetch('/update_farmer', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            FarmerID: currentFarmer.FarmerID,
+                            name: profile.name,
+                            location: profile.location,
+                            language: profile.language,
+                            field_size: profile.field_size
+                            // IMPORTANT: keep contact_info stable as email; do not overwrite with phone
+                        })
+                    });
+                    // Update currentFarmerId
+                    currentFarmerId = currentFarmer.FarmerID;
+                } else {
+                    // fallback create
+                    const addRes = await fetch('/add_farmer', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            name: profile.name,
+                            location: profile.location,
+                            language: profile.language,
+                            field_size: profile.field_size,
+                            contact_info: user.email // keep email as the linkage key
+                        })
+                    });
+                    await addRes.json();
+                    // Reload to get new FarmerID
+                    await ensureFarmerExistsAndSetDefaults();
+                }
+                
+                // Store farmerID in Firestore
+                if (currentFarmerId) {
+                    await db.collection('profiles').doc(user.uid).set({
+                        farmerID: currentFarmerId
+                    }, { merge: true });
+                }
+            } catch (e2) { console.warn('Profile sync to Farmers failed', e2); }
+
+            // Show summary
+            const summary = document.getElementById('profileSummary');
+            const summaryContent = document.getElementById('profileSummaryContent');
+            if (summary && summaryContent) {
+                summaryContent.innerHTML = `
+                    <p><strong>Name:</strong> ${profile.name || ''}</p>
+                    <p><strong>Location:</strong> ${profile.location || ''}</p>
+                    <p><strong>Language:</strong> ${profile.language || ''}</p>
+                    <p><strong>Field Size:</strong> ${profile.field_size || 0} acres</p>
+                    <p><strong>Contact:</strong> ${profile.phone || user.email || ''}</p>
+                `;
+                summary.style.display = 'block';
+            }
+            alert('Profile saved');
+        });
+
+        // ==========================
+        // FARMERS SECTION
+        // ==========================
+
+        async function loadFarmers() {
+            let res = await fetch('/get_farmers');
+            let farmers = await res.json();
+            const grid = document.getElementById('farmersGrid');
+
+            // Populate location filter options
+            const locSel = document.getElementById('farmerLocationFilter');
+            if (locSel) {
+                const locations = Array.from(new Set((farmers||[]).map(f => f.location).filter(Boolean))).sort();
+                locSel.innerHTML = '<option value="">All Locations</option>' + locations.map(l=>`<option value="${l}">${l}</option>`).join('');
+            }
+
+            function renderFarmers() {
+                const term = (document.getElementById('farmerSearch')?.value || '').toLowerCase();
+                const loc = document.getElementById('farmerLocationFilter')?.value || '';
+                const filtered = (farmers||[]).filter(f => {
+                    const matchesTerm = !term || [f.name, f.language, f.contact_info, f.location].some(v => (v||'').toLowerCase().includes(term));
+                    const matchesLoc = !loc || (f.location === loc);
+                    return matchesTerm && matchesLoc;
+                });
+                grid.innerHTML = filtered.map(farmer => `
+                    <div class="profile-card">
+                        <div class="profile-avatar"><i class="fas fa-user-tie"></i></div>
+                        <h3>${farmer.name}</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> ${farmer.location||''}</p>
+                        <p><i class="fas fa-language"></i> ${farmer.language||''}</p>
+                        <p><i class="fas fa-seedling"></i> ${farmer.field_size||0} acres</p>
+                        <p><i class="fas fa-phone"></i> ${farmer.contact_info||''}</p>
+                    </div>
+                `).join('');
+            }
+
+            renderFarmers();
+
+            // Populate response responder dropdown
+            const responderSelect = document.getElementById('responseResponder');
+            if (responderSelect) {
+                responderSelect.innerHTML = '<option value="">Select Responder</option>';
+                farmers.forEach(f => {
+                    const option = document.createElement('option');
+                    option.value = f.FarmerID;
+                    option.textContent = f.name;
+                    responderSelect.appendChild(option);
+                });
+            }
+
+            // Populate review From/To dropdowns
+            const reviewFrom = document.getElementById('reviewFrom');
+            const reviewTo = document.getElementById('reviewTo');
+            if (reviewFrom && reviewTo) {
+                reviewFrom.innerHTML = '<option value="">Select Farmer</option>';
+                reviewTo.innerHTML = '<option value="">Select Farmer</option>';
+                const myId = currentFarmerId ? Number(currentFarmerId) : null;
+                farmers.forEach(f => {
+                    const a = document.createElement('option');
+                    a.value = f.FarmerID;
+                    a.textContent = f.name;
+                    reviewFrom.appendChild(a);
+                    // Exclude myself from the 'To' (Review Target) list when logged in
+                    if (!myId || Number(f.FarmerID) !== myId) {
+                        const b = document.createElement('option');
+                        b.value = f.FarmerID;
+                        b.textContent = f.name;
+                        reviewTo.appendChild(b);
+                    }
+                });
+                // Ensure 'To' doesn't point to self if list was previously populated
+                if (myId && reviewTo.value === String(myId)) {
+                    reviewTo.value = '';
+                }
+            }
+
+            // Attach search listeners (once)
+            const farmerSearch = document.getElementById('farmerSearch');
+            const farmerLocationFilter = document.getElementById('farmerLocationFilter');
+            if (farmerSearch && !farmerSearch._bound) {
+                farmerSearch.addEventListener('input', renderFarmers);
+                farmerSearch._bound = true;
+            }
+            if (farmerLocationFilter && !farmerLocationFilter._bound) {
+                farmerLocationFilter.addEventListener('change', renderFarmers);
+                farmerLocationFilter._bound = true;
+            }
+        }
+
+
+        // ==========================
+        // CROPS SECTION
+        // ==========================
+        document.getElementById('cropForm')?.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const crop = {
+                name: document.getElementById('cropName').value,
+                category: document.getElementById('cropCategory').value
+            };
+            let res = await fetch('/add_crop', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(crop)
+            });
+            let result = await res.json();
+            alert(result.message);
+            loadCrops();
+            e.target.reset();
+        });
+
+        async function loadCrops() {
+            let res = await fetch('/get_crops');
+            let crops = await res.json();
+
+            // Populate crops grid
+            const grid = document.getElementById('cropsGrid');
+            grid.innerHTML = crops.map(crop => `
+                <div class="profile-card">
+                    <div class="profile-avatar"><i class="fas fa-leaf"></i></div>
+                    <h3>${crop.name}</h3>
+                    <p><i class="fas fa-tag"></i> ${crop.category}</p>
+                    <div class="card-actions">
+                        <button class="btn btn-secondary btn-small" title="Delete this crop" onclick="deleteCrop(${crop.CropTypeID})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Populate dropdowns in Queries
+            const cropSelect = document.getElementById('queryCropType');
+            cropSelect.innerHTML = '<option value="">Select Crop</option>';
+            crops.forEach(crop => {
+                const option = document.createElement('option');
+                option.value = crop.CropTypeID;
+                option.textContent = crop.name;
+                cropSelect.appendChild(option);
+            });
+        }
+
+        // ==========================
+        // QUERIES SECTION
+        // ==========================
+        document.getElementById('queryForm')?.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('title', document.getElementById('queryTitle').value);
+            formData.append('description', document.getElementById('queryDescription').value);
+            formData.append('FarmerID', currentFarmerId || document.getElementById('farmerSelect')?.value || 1);
+            formData.append('crop_type', document.getElementById('queryCropType').value);
+            const imageFile = document.getElementById('queryImage').files[0];
+            if (imageFile) formData.append('image', imageFile);
+
+            let res = await fetch('/add_query', {
+                method: 'POST',
+                body: formData
+            });
+            let result = await res.json();
+            alert(result.message);
+            loadQueries();
+            e.target.reset();
+        });
+
+        async function loadQueries() {
+            const qRes = await fetch('/get_queries');
+            const queries = await qRes.json();
+
+            const grid = document.getElementById('queriesGrid');
+            // Map CropTypeID to name for compact badges
+            const cropsRes = await fetch('/get_crops');
+            const crops = await cropsRes.json();
+            const cropIdToName = {};
+            crops.forEach(c => { cropIdToName[c.CropTypeID] = c.name; });
+
+            grid.innerHTML = '<div class="query-list">' + queries.map(q => {
+                const cropBadge = q.crop_type ? `<span class="badge badge-crop">${cropIdToName[q.crop_type] || 'Crop'}</span>` : '';
+                const thumb = q.image_url ? `<img src="${q.image_url}" alt="query">` : '<i class="fas fa-image" style="color:#7fb069;font-size:1.2rem;"></i>';
+                const count = Number(q.responses_count || 0);
+
+                const isMine = currentFarmerId && Number(q.FarmerID) === Number(currentFarmerId);
+                const respondControls = `
+                    <div id="respond-wrap-${q.QueryID}" style="margin-top:.75rem;">
+                        <div style="display:flex; gap:.5rem; align-items:center; flex-wrap:wrap;">
+                            ${isMine ? '' : `<button class="btn btn-primary btn-small" onclick=\"toggleRespond(${q.QueryID})\">Respond</button>`}
+                            <button id="toggle-resp-${q.QueryID}" class="btn btn-secondary btn-small" data-count="${count}" onclick="toggleResponses(${q.QueryID})">View ${count} response${count===1?'':'s'}</button>
+                        </div>
+                        <div id="respond-box-${q.QueryID}" style="display:none; margin-top:.5rem; text-align:left;">
+                            <div class="form-grid" style="margin-bottom:.5rem;">
+                                <div class="form-group">
+                                    <label>Responder</label>
+                                    <select id="respond-responder-${q.QueryID}"><option value="">Select Responder</option></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Responder Name (optional)</label>
+                                    <input type="text" id="respond-name-${q.QueryID}" placeholder="Enter name if not listed">
+                                </div>
+                                <div class="form-group">
+                                    <label>Expert?</label>
+                                    <select id="respond-expert-${q.QueryID}"><option value="false">No</option><option value="true">Yes</option></select>
+                                </div>
+                            </div>
+                            <textarea id="respond-text-${q.QueryID}" rows="3" class="search-box" placeholder="Write your response..."></textarea>
+                            <div style="display:flex; gap:.5rem; margin-top:.5rem;">
+                                <button class="btn btn-primary btn-small" onclick="submitResponse(${q.QueryID}, ${q.FarmerID})">Submit</button>
+                                <button class="btn btn-secondary btn-small" onclick="toggleRespond(${q.QueryID})">Cancel</button>
+                            </div>
+                        </div>
+                    </div>`;
+
+                const cardHtml = `
+                <div class="query-card query-card--compact">
+                    <div class="query-thumb">${thumb}</div>
+                    <div>
+                        <div class="query-meta-small">${cropBadge}</div>
+                        <h5 class="query-title-small">${q.title}</h5>
+                        ${q.description ? `<div class="query-subtitle">${q.description}</div>` : ''}
+                        <div id="responses-${q.QueryID}" style="display:none; margin-top:.5rem;"></div>
+                        ${respondControls}
+                    </div>
+                </div>`;
+
+                // Populate responder select lazily
+                setTimeout(async () => {
+                    try {
+                        if (isMine) return; // no controls
+                        const selectEl = document.getElementById(`respond-responder-${q.QueryID}`);
+                        if (!selectEl) return;
+                        const resFarm = await fetch('/get_farmers');
+                        const farmersList = await resFarm.json();
+                        selectEl.innerHTML = '<option value="">Select Responder</option>' + farmersList.map(f => `<option value="${f.FarmerID}">${f.name}</option>`).join('');
+                        if (currentFarmerId) selectEl.value = String(currentFarmerId);
+                    } catch (e) { console.warn('populate responder failed', e); }
+                }, 0);
+
+                return cardHtml;
+            }).join('') + '</div>';
+        }
+
+        // ==========================
+        // RESPONSES SECTION (List only; per-query respond handled inline)
+        // ==========================
+        function toggleRespond(queryId) {
+            const box = document.getElementById(`respond-box-${queryId}`);
+            if (!box) return;
+            box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'block' : 'none';
+        }
+
+        async function submitResponse(queryId, ownerId) {
+            try {
+                const textarea = document.getElementById(`respond-text-${queryId}`);
+                const responseText = textarea ? textarea.value.trim() : '';
+                if (!responseText) { alert('Please enter a response.'); return; }
+                if (!currentFarmerId) {
+                    // best effort to ensure farmer exists
+                    try { await ensureFarmerExistsAndSetDefaults(); } catch (e) {}
+                }
+                if (ownerId && currentFarmerId && Number(ownerId) === Number(currentFarmerId)) {
+                    alert('You cannot respond to your own query');
+                    return;
+                }
+                const responderSelect = document.getElementById(`respond-responder-${queryId}`);
+                const expertSelect = document.getElementById(`respond-expert-${queryId}`);
+                const responderNameInput = document.getElementById(`respond-name-${queryId}`);
+                const responderId = responderSelect && responderSelect.value ? Number(responderSelect.value) : (currentFarmerId || 1);
+                const isExpert = expertSelect ? (expertSelect.value === 'true') : false;
+                // If a name is typed and no dropdown selection, try to create/find a farmer by that name
+                let finalResponderId = responderId;
+                if ((!responderSelect || !responderSelect.value) && responderNameInput && responderNameInput.value.trim()) {
+                    try {
+                        const farmersRes = await fetch('/get_farmers');
+                        const farmers = await farmersRes.json();
+                        const existing = farmers.find(f => String(f.name).toLowerCase() === responderNameInput.value.trim().toLowerCase());
+                        if (existing) {
+                            finalResponderId = existing.FarmerID;
+                        } else {
+                            const payloadFarmer = {
+                                name: responderNameInput.value.trim(),
+                                location: '',
+                                language: 'English',
+                                field_size: 0,
+                                contact_info: `name:${responderNameInput.value.trim()}`
+                            };
+                            const addRes = await fetch('/add_farmer', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(payloadFarmer)
+                            });
+                            await addRes.json();
+                            const farmersRes2 = await fetch('/get_farmers');
+                            const farmers2 = await farmersRes2.json();
+                            const created = farmers2.find(f => f.contact_info === payloadFarmer.contact_info);
+                            if (created) finalResponderId = created.FarmerID;
+                        }
+                    } catch (e) { console.warn('responder name handling failed', e); }
+                }
+            const payload = {
+                    QueryID: queryId,
+                    ResponderID: finalResponderId,
+                    response_text: responseText,
+                    is_expert: isExpert,
+                votes: 0
+            };
+                const res = await fetch('/add_response', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await res.json();
+                if (!res.ok) { alert(result.message || 'Error adding response'); return; }
+                // Clear UI and refresh queries to show new response inline
+                if (textarea) textarea.value = '';
+                toggleRespond(queryId);
+                await loadResponsesForQuery(queryId);
+                alert('Response added');
+            } catch (err) {
+                console.error(err);
+                alert('Network error while adding response');
+            }
+        }
+
+        async function loadResponsesForQuery(queryId) {
+            try {
+                const container = document.getElementById(`responses-${queryId}`);
+                if (!container) return;
+                const res = await fetch(`/get_responses?query_id=${encodeURIComponent(queryId)}`);
+                const resp = await res.json();
+                container.innerHTML = resp.length ? resp.map(r => {
+                    const role = r.is_expert ? 'Expert' : 'Farmer';
+                    const roleBadge = `<span class="badge ${r.is_expert ? 'badge-expert' : ''}">${role}</span>`;
+                    const vote = Number(r.votes || 0);
+                    return `
+                        <div class="response-inline" style="display:flex; align-items:center; gap:.5rem;">
+                            ${roleBadge}<div style="flex:1;">${(r.response_text || '')}</div>
+                            <button class="btn btn-secondary btn-small" title="Like / Unlike" onclick="toggleLike(${r.ResponseID}, ${queryId})">👍 ${vote}</button>
+                        </div>`;
+                }).join('') : '<div style="color:#666;">No responses yet.</div>';
+            } catch (e) {
+                console.warn('Failed to load responses for query', queryId, e);
+            }
+        }
+
+        function toggleResponses(queryId) {
+            const container = document.getElementById(`responses-${queryId}`);
+            if (!container) return;
+            const show = (container.style.display === 'none' || container.style.display === '');
+            container.style.display = show ? 'block' : 'none';
+            // toggle button label
+            const btn = document.getElementById(`toggle-resp-${queryId}`);
+            if (btn) {
+                const count = Number(btn.getAttribute('data-count') || 0);
+                btn.textContent = show ? 'Close responses' : `View ${count} response${count===1?'':'s'}`;
+            }
+            if (show) loadResponsesForQuery(queryId);
+        }
+
+        async function toggleLike(responseId, queryId) {
+            try {
+                if (!currentFarmerId) {
+                    try { await ensureFarmerExistsAndSetDefaults(); } catch (e) {}
+                    if (!currentFarmerId) { alert('Please login to like responses'); return; }
+                }
+                const res = await fetch('/toggle_like', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ResponseID: responseId, FarmerID: Number(currentFarmerId) })
+                });
+                const result = await res.json();
+                if (!res.ok) { alert(result.message || 'Unable to toggle like'); return; }
+                await loadResponsesForQuery(queryId);
+            } catch (e) {
+                console.error(e);
+                alert('Network error');
+            }
+        }
+
+        async function loadResponses() {
+            try {
+                let res = await fetch('/get_responses');
+                let responses = await res.json();
+                const grid = document.getElementById('responsesGrid');
+                if (!grid) return;
+                grid.innerHTML = responses.map(r => `
+                    <div class="profile-card">
+                        <p><strong>Query #${r.QueryID}</strong></p>
+                        <p>${r.response_text}</p>
+                        <p>${r.is_expert ? 'Expert' : 'Farmer'} • Votes: ${r.votes}</p>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // ==========================
+        // EQUIPMENT SECTION
+        // ==========================
+        document.getElementById('equipmentForm')?.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            try {
+                // Ensure we have a logged-in user mapped to a FarmerID
+                await ensureFarmerExistsAndSetDefaults();
+            } catch (e) {}
+            if (!currentFarmerId) {
+                alert('Please login first to add equipment.');
+                try { showSection('auth'); } catch (e) {}
+                return;
+            }
+
+            const equipment = {
+                OwnerID: currentFarmerId, // strictly the logged-in user
+                name: document.getElementById('equipmentName').value,
+                type: document.getElementById('equipmentType').value,
+                condition: document.getElementById('equipmentCondition').value,
+                hourly_rate: document.getElementById('equipmentRate').value,
+                availability_status: document.getElementById('equipmentAvailability').value
+            };
+
+            try {
+                let res = await fetch('/add_equipment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(equipment)
+                });
+                let result = await res.json();
+                if (!res.ok) {
+                    alert(result.message || 'Error adding equipment');
+                    return;
+                }
+                alert(result.message);
+                loadEquipment();
+                // Refresh lending equipment dropdown so newly added items appear
+                try { await loadLendingEquipment(); } catch (e) {}
+                e.target.reset();
+            } catch (err) {
+                console.error(err);
+                alert('Network error while adding equipment');
+            }
+        });
+
+        let equipmentCache = [];
+
+        async function loadEquipment() {
+            try {
+                const myGrid = document.getElementById('myEquipmentGrid');
+                const otherGrid = document.getElementById('otherEquipmentGrid');
+                const searchVal = (document.getElementById('equipmentSearch')?.value || '').toLowerCase();
+                const typeFilter = document.getElementById('equipmentTypeFilter')?.value || '';
+
+                // Fetch server-side filtered lists when currentFarmerId is known
+                let myList = [];
+                let othersList = [];
+                if (currentFarmerId) {
+                    const [myRes, otherRes] = await Promise.all([
+                        fetch(`/get_equipment?owner_id=${encodeURIComponent(currentFarmerId)}`),
+                        fetch(`/get_equipment?exclude_owner_id=${encodeURIComponent(currentFarmerId)}`)
+                    ]);
+                    myList = (await myRes.json()) || [];
+                    othersList = (await otherRes.json()) || [];
+                    equipmentCache = [...myList, ...othersList];
+                } else {
+                    // Fallback: fetch all
+                    const res = await fetch('/get_equipment');
+                    const all = await res.json();
+                    equipmentCache = all || [];
+                    myList = [];
+                    othersList = all || [];
+                }
+
+                const filterFn = (eq) => {
+                    const matchText = !searchVal || `${eq.name} ${eq.type} ${eq.condition}`.toLowerCase().includes(searchVal);
+                    const matchType = !typeFilter || eq.type === typeFilter;
+                    return matchText && matchType;
+                };
+
+                const mine = (myList || []).filter(filterFn);
+                const others = (othersList || []).filter(filterFn);
+
+                const cardHtml = (eq, isMine) => `
+                    <div class="equipment-card">
+                        <div class="equipment-image"><i class="fas fa-tractor"></i></div>
+                        <div class="equipment-info">
+                            <h4>${eq.name}</h4>
+                            <p><strong>Type:</strong> ${eq.type}</p>
+                            <p><strong>Condition:</strong> ${eq.condition}</p>
+                            <p><strong>Rate:</strong> ₹${Number(eq.hourly_rate).toFixed(2)}/hr</p>
+                            <span class="status-badge ${eq.availability_status === 'Available' ? 'status-available' : 'status-unavailable'}">${eq.availability_status}</span>
+                            <div class="card-actions" style="margin-top:.75rem;">
+                                ${!isMine && eq.availability_status === 'Available' ? `<button type="button" class="btn btn-primary btn-small" title="Request this equipment" onclick="startLendingWithEquipment(${eq.EquipmentID}, ${eq.OwnerID || 'null'})">Request</button>` : ''}
+                                <button type="button" class="btn btn-secondary btn-small" title="${isMine ? 'Delete this equipment' : 'Only owner can delete'}" ${isMine ? '' : 'disabled'} onclick="${isMine ? `deleteEquipment(${eq.EquipmentID})` : 'void(0)'}">Delete</button>
+                            </div>
+                        </div>
+                    </div>`;
+
+                if (myGrid) myGrid.innerHTML = mine.length ? mine.map(eq => cardHtml(eq, true)).join('') : '<div style="color:#666;">No equipment added by you yet.</div>';
+                if (otherGrid) otherGrid.innerHTML = others.length ? others.map(eq => cardHtml(eq, false)).join('') : '<div style="color:#666;">No equipment from others found.</div>';
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function startLendingWithEquipment(equipmentId, ownerId) {
+            // Guard: must be logged in and mapped to FarmerID
+            if (!currentFarmerId) {
+                alert('Please login to request lending.');
+                try { showSection('auth'); } catch (e) {}
+                return;
+            }
+            // Prevent self-lending at UI level
+            if (ownerId && Number(ownerId) === Number(currentFarmerId)) {
+                alert("You can't lend your own equipment.");
+                return;
+            }
+            try {
+                showSection('lending');
+            } catch (e) {
+                const lendingSection = document.getElementById('lending');
+                if (lendingSection) lendingSection.classList.add('active');
+            }
+            const equipSelect = document.getElementById('lendingEquipment');
+            const lenderSelect = document.getElementById('lendingLender');
+            const borrowerSelect = document.getElementById('lendingBorrower');
+            if (equipSelect) equipSelect.value = String(equipmentId);
+            // lender auto-deduced on server; borrower is current user only
+            if (borrowerSelect && currentFarmerId) borrowerSelect.value = String(currentFarmerId);
+            try { document.getElementById('lendingStartDate').focus(); } catch (e) {}
+        }
+        // ==========================
+        // LENDING REQUESTS
+        // ==========================
+
+            // Populate Equipment dropdown (only available equipment)
+            async function loadLendingEquipment() {
+                let res = await fetch('/get_equipment');
+                let equipmentList = await res.json();
+                const select = document.getElementById('lendingEquipment');
+                select.innerHTML = '<option value="">Select Equipment</option>';
+
+                equipmentList.forEach(eq => {
+                    if (eq.availability_status === 'Available') {
+                        const option = document.createElement('option');
+                        option.value = eq.EquipmentID;
+                        option.textContent = `${eq.name} (${eq.type})`;
+                        select.appendChild(option);
+                    }
+                });
+            }
+
+            // Populate Borrower dropdown (all farmers)
+            async function loadLendingBorrowers() {
+                let res = await fetch('/get_farmers');
+                let farmers = await res.json();
+                const select = document.getElementById('lendingBorrower');
+                select.innerHTML = '<option value="">Select Borrower</option>';
+
+                farmers.forEach(f => {
+                    const option = document.createElement('option');
+                    option.value = f.FarmerID;
+                    option.textContent = f.name;
+                    select.appendChild(option);
+                });
+                // auto-select current user as borrower
+                if (currentFarmerId) {
+                    select.value = String(currentFarmerId);
+                }
+            }
+
+            async function loadFarmersForLending() {
+                    let res = await fetch('/get_farmers');
+                    let farmers = await res.json();
+                    const borrowerSelect = document.getElementById('lendingBorrower');
+                    borrowerSelect.innerHTML = '<option value="">Select Borrower</option>';
+                    farmers.forEach(f => {
+                        const option = document.createElement('option');
+                        option.value = f.FarmerID;  // ✅ send ID, not name
+                        option.textContent = f.name;
+                        borrowerSelect.appendChild(option);
+                    });
+                    // borrower must be current user
+                    if (currentFarmerId) borrowerSelect.value = String(currentFarmerId);
+            }
+
+            // Remove earlier duplicate submit handler and use a single, validated one below
+
+
+            // Handle Lending Request submission
+            document.getElementById('lendingForm')?.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                // Ensure identity is ready
+                try { await ensureFarmerExistsAndSetDefaults(); } catch (e) {}
+                if (!currentFarmerId) { alert('Please login first.'); try { showSection('auth'); } catch (e) {} return; }
+
+                const EquipmentID = document.getElementById('lendingEquipment').value;
+                const BorrowerID = currentFarmerId; // strictly the logged-in user
+                const start_date = document.getElementById('lendingStartDate').value;
+                const duration = document.getElementById('lendingDuration').value;
+
+                if (!EquipmentID || !BorrowerID) {
+                    alert('Please select equipment and borrower.');
+                    return;
+                }
+
+                const requestData = { EquipmentID, BorrowerID, start_date, duration };
+
+                try {
+                    let res = await fetch('/add_lending_request', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(requestData)
+                    });
+                    let result = await res.json();
+                    if (!res.ok) {
+                        alert(result.message || 'Error submitting lending request');
+                        return;
+                    }
+                    alert(result.message);
+                    e.target.reset();
+                    loadLendingEquipment();
+                    loadLendingRequestsUI();
+                } catch (err) {
+                    console.error(err);
+                    alert('Error submitting lending request.');
+                }
+            });
+
+            // Load dropdowns on page load
+            document.addEventListener('DOMContentLoaded', () => {
+                loadLendingEquipment();
+                loadLendingBorrowers();
+                loadFarmersForLending();
+                loadEquipment();
+                loadLendingRequestsUI();
+            });
+
+            // List current user's lending requests only
+            async function loadLendingRequestsUI() {
+                try {
+                    const grid = document.getElementById('lendingGrid');
+                    if (!grid) return;
+                    if (!currentFarmerId) {
+                        grid.innerHTML = '<div style="color:#666;">Login to view your lending requests.</div>';
+                        return;
+                    }
+                    const res = await fetch(`/get_lending_requests?borrower_id=${encodeURIComponent(currentFarmerId)}`);
+                    const mine = await res.json();
+                    grid.innerHTML = Array.isArray(mine) && mine.length ? mine.map(r => `
+                        <div class="profile-card">
+                            <h4>${r.equipment_name || ('Equipment #' + r.EquipmentID)}</h4>
+                            <p><strong>Status:</strong> ${r.status}</p>
+                            <p><strong>Start:</strong> ${r.start_date}</p>
+                            <p><strong>Duration:</strong> ${r.duration} days</p>
+                            <p><strong>Lender:</strong> ${r.lender_name || r.LenderID}</p>
+                        </div>
+                    `).join('') : '<div style="color:#666;">No requests yet.</div>';
+                } catch (e) {
+                    console.warn('Failed loading lending requests', e);
+                }
+            }
+
+
+
+        // ==========================
+        // REVIEWS SECTION
+        // ==========================
+        document.getElementById('reviewForm')?.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            if (!currentFarmerId) { alert('Please login to submit a review.'); return; }
+            const ratingVal = document.getElementById('reviewRatingValue').value;
+            if (!ratingVal) { alert('Please select a star rating'); return; }
+            const review = {
+                FromFarmerID: String(currentFarmerId),
+                ToFarmerID: document.getElementById('reviewTo').value,
+                rating: ratingVal,
+                feedback: document.getElementById('reviewFeedback').value,
+                type: document.getElementById('reviewType').value
+            };
+
+            let res = await fetch('/add_review', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(review)
+            });
+            let result = await res.json();
+            alert(result.message);
+            loadReviews();
+            e.target.reset();
+        });
+
+        async function loadReviews() {
+            let res = await fetch('/get_reviews');
+            let reviews = await res.json();
+            const grid = document.getElementById('reviewsGrid');
+            grid.innerHTML = reviews.map(r => `
+                <div class="profile-card">
+                    <p><strong>Type:</strong> ${r.type}</p>
+                    <p><strong>From:</strong> ${r.FromFarmerID} <strong>To:</strong> ${r.ToFarmerID}</p>
+                    <p><strong>Rating:</strong> ${r.rating}</p>
+                    <p>${r.feedback}</p>
+                </div>
+            `).join('');
+        }
+
+        async function loadLendingEquipment() {
+                let res = await fetch('/get_equipment'); // Endpoint that returns all equipment
+                let equipmentList = await res.json();
+
+                const select = document.getElementById('lendingEquipment');
+                select.innerHTML = '<option value="">Select Equipment</option>'; // reset
+
+                equipmentList.forEach(eq => {
+                    if (eq.availability_status === 'Available') { // only show available
+                        const option = document.createElement('option');
+                        option.value = eq.EquipmentID;  // backend ID
+                        option.textContent = `${eq.name} (${eq.type})`;
+                        select.appendChild(option);
+                    }
+                });
+            }
+        // ==========================
+        // ON PAGE LOAD
+        // ==========================
+        document.addEventListener("DOMContentLoaded", () => {
+            loadFarmers();
+            loadCrops();
+            loadQueries();
+            loadEquipment();
+            loadReviews();
+            loadLendingEquipment();
+            loadLendingRequestsUI();
+            // init review stars
+            try { initReviewStars(); } catch (e) {}
+            
+            // Add search/filter listeners for equipment
+            const equipmentSearch = document.getElementById('equipmentSearch');
+            const equipmentTypeFilter = document.getElementById('equipmentTypeFilter');
+            if (equipmentSearch) {
+                equipmentSearch.addEventListener('input', () => loadEquipment());
+            }
+            if (equipmentTypeFilter) {
+                equipmentTypeFilter.addEventListener('change', () => loadEquipment());
+            }
+            // Do not force redirect to auth; keep dashboard (home) as first view
+        });
+
+        async function loadLendingRequestsUI() {
+            try {
+                const res = await fetch('/get_lending_requests');
+                const reqs = await res.json();
+                const grid = document.getElementById('lendingGrid');
+                if (!grid) return;
+                // Filter requests relevant to current user
+                const myId = currentFarmerId ? Number(currentFarmerId) : null;
+                const myBorrowing = myId ? reqs.filter(r => Number(r.BorrowerID) === myId) : [];
+                const myLending = myId ? reqs.filter(r => Number(r.LenderID) === myId) : [];
+
+                function renderCard(r, showActions) {
+                    const badgeClass = r.status === 'Pending' ? 'status-pending' : (r.status === 'Approved' ? 'status-available' : (r.status === 'Rejected' ? 'status-unavailable' : 'status-available'));
+                    const borrowerIsMine = (myId && Number(r.BorrowerID) === myId);
+                    const borrowerCanCancel = borrowerIsMine && r.status === 'Pending';
+
+                    const actions = borrowerCanCancel ? `
+                        <div class=\"card-actions\">\n                            <button type=\"button\" class=\"btn btn-secondary btn-small\" onclick=\"deleteLendingRequest(${r.RequestID})\">Delete Request</button>\n                        </div>` : '';
+
+                    // Determine the other party to prefill 'To' in Reviews
+                    const amBorrower = myId && Number(r.BorrowerID) === myId;
+                    const otherId = amBorrower ? r.LenderID : r.BorrowerID;
+                    const otherName = amBorrower ? (r.lender_name || `Farmer #${r.LenderID}`) : (r.borrower_name || `Farmer #${r.BorrowerID}`);
+                    const reviewAction = `
+                        <div class=\"card-actions\">\n                            <button type=\"button\" class=\"btn btn-primary btn-small\" title=\"Review this transaction\" onclick=\"prefillReviewFromLending(${otherId}, '${String(otherName).replace(/'/g, "\\'")}', 'Equipment', '${String(r.equipment_name||'Equipment').replace(/'/g, "\\'")}')\">Review</button>\n                        </div>`;
+
+                    return `
+                        <div class="profile-card" style="text-align:left;">
+                            <h4 style="margin-bottom:.5rem;">${r.equipment_name}</h4>
+                            <p><strong>Lender:</strong> ${r.lender_name} (#${r.LenderID})</p>
+                            <p><strong>Borrower:</strong> ${r.borrower_name} (#${r.BorrowerID})</p>
+                            <p><strong>Duration:</strong> ${r.duration} days</p>
+                            <span class="status-badge ${badgeClass}">${r.status}</span>
+                            ${actions}
+                            ${reviewAction}
+                        </div>
+                    `;
+                }
+
+                if (!myId) {
+                    // If not logged in, show none
+                    grid.innerHTML = '<div class="profile-card" style="text-align:center;">Login to view your lending requests.</div>';
+                    return;
+                }
+
+                grid.innerHTML = `
+                    <div class="lending-section">
+                        <h3>My Requests (Borrowing)</h3>
+                        <div class="lending-list">
+                            ${myBorrowing.length ? myBorrowing.map(r => renderCard(r, false)).join('') : '<div class="profile-card">No requests yet.</div>'}
+                        </div>
+                    </div>
+                    <div class="lending-section">
+                        <h3>Requests for My Equipment (Lending)</h3>
+                        <div class="lending-list">
+                            ${myLending.length ? myLending.map(r => renderCard(r, true)).join('') : '<div class="profile-card">No requests yet.</div>'}
+                        </div>
+                    </div>`;
+            } catch (e) {
+                console.error('loadLendingRequestsUI error', e);
+            }
+        }
+
+        async function updateLendingStatus(requestId, status) {
+            try {
+                const res = await fetch('/update_lending_request_status', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ RequestID: requestId, status })
+                });
+                const result = await res.json();
+                if (!res.ok) { alert(result.message || 'Update failed'); return; }
+                loadLendingRequestsUI();
+            } catch (e) {
+                console.error(e);
+                alert('Network error');
+            }
+        }
+
+        // Navigate to Reviews and prefill the form for a given counterparty
+        async function prefillReviewFromLending(targetFarmerId, targetFarmerName, type = 'Equipment', equipmentName = '') {
+            try {
+                // Go to reviews first so elements exist
+                showSection('reviews');
+                // Ensure we have mapping and farmer list so 'To' options render
+                try { await ensureFarmerExistsAndSetDefaults(); } catch (e) {}
+                try { await loadFarmers(); } catch (e) {}
+
+                const typeSel = document.getElementById('reviewType');
+                const fromSel = document.getElementById('reviewFrom');
+                const toSel   = document.getElementById('reviewTo');
+                const feedbackEl = document.getElementById('reviewFeedback');
+                if (typeSel) typeSel.value = type;
+                if (fromSel && currentFarmerId) fromSel.value = String(currentFarmerId);
+                if (toSel) toSel.value = String(targetFarmerId);
+                if (feedbackEl && equipmentName && !feedbackEl.value) {
+                    feedbackEl.value = `Feedback for ${equipmentName}: `;
+                }
+                document.getElementById('reviewForm')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } catch (e) {
+                console.warn('prefillReviewFromLending failed', e);
+            }
+        }
+
+        async function deleteCrop(cropTypeId) {
+            try {
+                if (!confirm('Delete this crop type?')) return;
+                const res = await fetch('/delete_crop', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ CropTypeID: Number(cropTypeId) })
+                });
+                const result = await res.json();
+                if (!res.ok) { alert(result.message || 'Delete failed'); return; }
+                await loadCrops();
+                alert('Crop deleted');
+            } catch (e) {
+                console.warn(e);
+                alert('Network error');
+            }
+        }
+
+        // ==========================
+        // LANGUAGE DROPDOWN BINDING
+        // ==========================
+        (function bindLanguageSelector(){
+            try {
+                const select = document.getElementById('langSelect');
+                if (!select) return;
+                // Preselect from cookie
+                const cookieMatch = document.cookie.match(/(?:^|; )lang=([^;]+)/);
+                if (cookieMatch) {
+                    try { select.value = decodeURIComponent(cookieMatch[1]); } catch (e) {}
+                }
+                select.addEventListener('change', async (e) => {
+                    const lang = e.target.value;
+                    if (!lang) return;
+                    
+                    // Show loading indicator
+                    const originalValue = select.value;
+                    select.disabled = true;
+                    select.style.opacity = '0.6';
+                    
+                    try {
+                        // Set cookie first
+                        document.cookie = `lang=${encodeURIComponent(lang)}; path=/; max-age=${60*60*24*180}; samesite=Lax`;
+                        
+                        // Then send to server
+                        const response = await fetch('/set_language', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: 'lang=' + encodeURIComponent(lang),
+                            keepalive: true
+                        });
+                        
+                        if (response.ok) {
+                            const result = await response.json();
+                            if (result.success) {
+                                // Small delay to ensure cookie is set
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 100);
+                            } else {
+                                throw new Error('Server returned error');
+                            }
+                        } else {
+                            throw new Error('Server error');
+                        }
+                    } catch (err) {
+                        console.error('Language change failed:', err);
+                        // Revert selection on error
+                        select.value = originalValue;
+                        select.disabled = false;
+                        select.style.opacity = '1';
+                        
+                        // Try fallback: just set cookie and reload
+                        try {
+                            document.cookie = `lang=${encodeURIComponent(lang)}; path=/; max-age=${60*60*24*180}; samesite=Lax`;
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 200);
+                        } catch (fallbackErr) {
+                            alert('Failed to change language. Please try again.');
+                        }
+                    }
+                });
+            } catch (e) {}
+        })();
+
+        // ==========================
+        // VOICE RECORDING FUNCTIONALITY
+        // ==========================
+        (function initVoiceRecording() {
+            let mediaRecorder = null;
+            let audioChunks = [];
+            let audioBlob = null;
+            let isRecording = false;
+
+            const voiceBtn = document.getElementById('voiceBtn');
+            const micIcon = document.getElementById('micIcon');
+            const micText = document.getElementById('micText');
+            const voicePreview = document.getElementById('voicePreview');
+            const clearVoice = document.getElementById('clearVoice');
+
+            if (!voiceBtn) return;
+
+            // Check for browser support
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                voiceBtn.style.display = 'none';
+                return;
+            }
+
+            voiceBtn.addEventListener('click', async () => {
+                if (!isRecording) {
+                    try {
+                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                        mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+                        audioChunks = [];
+
+                        mediaRecorder.ondataavailable = (event) => {
+                            audioChunks.push(event.data);
+                        };
+
+                        mediaRecorder.onstop = () => {
+                            audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                            const audioUrl = URL.createObjectURL(audioBlob);
+                            voicePreview.src = audioUrl;
+                            voicePreview.style.display = 'block';
+                            clearVoice.style.display = 'inline-flex';
+                            
+                            // Stop all tracks to release microphone
+                            stream.getTracks().forEach(track => track.stop());
+                        };
+
+                        mediaRecorder.start();
+                        isRecording = true;
+                        
+                        // Update UI
+                        micIcon.className = 'fas fa-stop';
+                        micText.textContent = 'Stop Recording';
+                        voiceBtn.style.background = '#dc3545';
+                        voiceBtn.style.borderColor = '#dc3545';
+                        
+                    } catch (error) {
+                        console.error('Error accessing microphone:', error);
+                        alert('Microphone access denied. Please allow microphone access to record voice queries.');
+                    }
+                } else {
+                    // Stop recording
+                    if (mediaRecorder && mediaRecorder.state === 'recording') {
+                        mediaRecorder.stop();
+                    }
+                    isRecording = false;
+                    
+                    // Update UI
+                    micIcon.className = 'fas fa-microphone';
+                    micText.textContent = 'Start Recording';
+                    voiceBtn.style.background = '#28a745';
+                    voiceBtn.style.borderColor = '#28a745';
+                }
+            });
+
+            // Clear voice recording
+            clearVoice.addEventListener('click', () => {
+                audioBlob = null;
+                voicePreview.style.display = 'none';
+                clearVoice.style.display = 'none';
+                if (voicePreview.src) {
+                    URL.revokeObjectURL(voicePreview.src);
+                    voicePreview.src = '';
+                }
+            });
+
+            // Modify form submission to include voice data
+            const queryForm = document.getElementById('queryForm');
+            if (queryForm) {
+                queryForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const formData = new FormData();
+                    formData.append('FarmerID', localStorage.getItem('farmerId') || '1');
+                    formData.append('title', document.getElementById('queryTitle').value || 'Voice Query');
+                    formData.append('description', document.getElementById('queryDescription').value || '');
+                    formData.append('crop_type', document.getElementById('queryCropType').value || '');
+                    
+                    // Add image if selected
+                    const imageFile = document.getElementById('queryImage').files[0];
+                    if (imageFile) {
+                        formData.append('image', imageFile);
+                    }
+                    
+                    // Add voice recording if available
+                    if (audioBlob) {
+                        formData.append('audio', audioBlob, 'voice_query.webm');
+                    }
+
+                    try {
+                        const response = await fetch('/add_query', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        const result = await response.json();
+                        if (response.ok) {
+                            alert('Query posted successfully!');
+                            queryForm.reset();
+                            voicePreview.style.display = 'none';
+                            clearVoice.style.display = 'none';
+                            audioBlob = null;
+                            loadQueries(); // Refresh queries list
+                        } else {
+                            alert('Error: ' + (result.message || 'Failed to post query'));
+                        }
+                    } catch (error) {
+                        console.error('Error posting query:', error);
+                        alert('Network error. Please try again.');
+                    }
+                });
+            }
+        })();
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Farmer Support Pro - Testing Matrix</title>
+<style>
+ body { font-family: Arial, Helvetica, sans-serif; }
+ h1, h2 { margin: 12px 0 6px; }
+ table { width: 100%; border-collapse: collapse; margin: 10px 0 24px; }
+ th, td { border: 1px solid #000; padding: 8px; vertical-align: top; }
+ th { background: #f2f2f2; }
+ .section { page-break-inside: avoid; }
+</style>
+</head>
+<body>
+<h1>Testing</h1>
+
+<div class="section">
+<h2>Farmers</h2>
+<table>
+  <tr>
+    <th>Test Case ID</th>
+    <th>Input</th>
+    <th>Expected Output</th>
+    <th>Actual Output</th>
+    <th>Status</th>
+  </tr>
+  <tr>
+    <td>FR-01</td>
+    <td>POST /add_farmer {name:'Adi', location:'Pune', language:'English', field_size:2, contact_info:'adi@example.com'}</td>
+    <td>200 OK, {"message":"Farmer added successfully"}</td>
+    <td>200 OK, {"message":"Farmer added successfully"}</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>FR-02</td>
+    <td>GET /get_farmers</td>
+    <td>200 OK, list includes 'Adi' with FarmerID</td>
+    <td>200 OK, includes 'Adi' with FarmerID</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>FR-03</td>
+    <td>POST /update_farmer {FarmerID:&lt;id&gt;, name:'Adi K'}</td>
+    <td>200 OK, {"message":"Farmer updated successfully"}; GET shows updated name</td>
+    <td>200 OK, {"message":"Farmer updated successfully"}; GET shows updated name</td>
+    <td>Pass</td>
+  </tr>
+</table>
+</div>
+
+<div class="section">
+<h2>Crops</h2>
+<table>
+  <tr>
+    <th>Test Case ID</th>
+    <th>Input</th>
+    <th>Expected Output</th>
+    <th>Actual Output</th>
+    <th>Status</th>
+  </tr>
+  <tr>
+    <td>CR-01</td>
+    <td>POST /add_crop {name:'Wheat', category:'Grains'}</td>
+    <td>200 OK, {"message":"Crop added successfully"}</td>
+    <td>200 OK, {"message":"Crop added successfully"}</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>CR-02</td>
+    <td>GET /get_crops</td>
+    <td>200 OK, includes Wheat with CropTypeID</td>
+    <td>200 OK, Wheat present with CropTypeID</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>CR-03</td>
+    <td>UI Crops → click Delete on Wheat</td>
+    <td>200 OK, {"message":"Crop deleted"}; Wheat removed</td>
+    <td>200 OK, {"message":"Crop deleted"}; Wheat removed</td>
+    <td>Pass</td>
+  </tr>
+</table>
+</div>
+
+<div class="section">
+<h2>Equipment</h2>
+<table>
+  <tr>
+    <th>Test Case ID</th>
+    <th>Input</th>
+    <th>Expected Output</th>
+    <th>Actual Output</th>
+    <th>Status</th>
+  </tr>
+  <tr>
+    <td>EQ-01</td>
+    <td>POST /add_equipment {OwnerID:&lt;me&gt;, name:'Tractor', type:'Tractor', condition:'Excellent', hourly_rate:200, availability_status:'Available'}</td>
+    <td>200 OK, {"message":"Equipment added successfully"}</td>
+    <td>200 OK, {"message":"Equipment added successfully"}</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>EQ-02</td>
+    <td>GET /get_equipment?owner_id=&lt;me&gt;</td>
+    <td>200 OK, includes 'Tractor'; UI shows ₹200/hr</td>
+    <td>200 OK; UI shows ₹200/hr</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>EQ-03</td>
+    <td>UI My Equipment → Delete</td>
+    <td>200 OK, {"message":"Equipment deleted"}; card removed; related pending requests removed</td>
+    <td>200 OK; removed as expected</td>
+    <td>Pass</td>
+  </tr>
+</table>
+</div>
+
+<div class="section">
+<h2>Lending Requests</h2>
+<table>
+  <tr>
+    <th>Test Case ID</th>
+    <th>Input</th>
+    <th>Expected Output</th>
+    <th>Actual Output</th>
+    <th>Status</th>
+  </tr>
+  <tr>
+    <td>LR-01</td>
+    <td>POST /add_lending_request {EquipmentID:&lt;tractorId&gt;, BorrowerID:&lt;otherId&gt;, start_date:'2025-10-10', duration:3}</td>
+    <td>200 OK, {"message":"Lending request added successfully"}</td>
+    <td>200 OK, {"message":"Lending request added successfully"}</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>LR-02</td>
+    <td>GET /get_lending_requests?lender_id=&lt;me&gt;</td>
+    <td>200 OK, fields: equipment_name, lender_name, borrower_name, status</td>
+    <td>200 OK, enriched fields present</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>LR-03</td>
+    <td>UI layout</td>
+    <td>Two sections aligned side-by-side; headers top-aligned; cards evenly spaced</td>
+    <td>Aligned; headers top-aligned</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>LR-04</td>
+    <td>Borrower Pending → Delete Request</td>
+    <td>200 OK, {"message":"Request cancelled"}; request removed from list</td>
+    <td>200 OK; removed from list</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>LR-05</td>
+    <td>Any request → Review</td>
+    <td>Navigates to Reviews; Type=Equipment; From=current user; To=other party; scrolled to form</td>
+    <td>Navigated; fields prefilled; scrolled</td>
+    <td>Pass</td>
+  </tr>
+</table>
+</div>
+
+<div class="section">
+<h2>Reviews & Feedback</h2>
+<table>
+  <tr>
+    <th>Test Case ID</th>
+    <th>Input</th>
+    <th>Expected Output</th>
+    <th>Actual Output</th>
+    <th>Status</th>
+  </tr>
+  <tr>
+    <td>RV-01</td>
+    <td>UI Review Form – From (Reviewer)</td>
+    <td>Disabled and prefilled with currentFarmerId</td>
+    <td>Disabled, prefilled</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>RV-02</td>
+    <td>UI Review Form – To (Review Target)</td>
+    <td>Dropdown excludes logged-in user</td>
+    <td>Self excluded</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>RV-03</td>
+    <td>5-star rating: click star 4</td>
+    <td>Stars 1–4 filled; rating=4 submitted</td>
+    <td>Stars 1–4 filled; rating=4 submitted</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>RV-04</td>
+    <td>POST /add_review {From:&lt;me&gt;, To:&lt;other&gt;, rating:5, feedback:'Good', type:'Equipment'}</td>
+    <td>200 OK, {"message":"Review added successfully"}</td>
+    <td>200 OK, {"message":"Review added successfully"}</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>RV-05</td>
+    <td>GET /get_reviews</td>
+    <td>200 OK, list includes newly added review</td>
+    <td>200 OK, review present</td>
+    <td>Pass</td>
+  </tr>
+</table>
+</div>
+
+<div class="section">
+<h2>Queries & Responses</h2>
+<table>
+  <tr>
+    <th>Test Case ID</th>
+    <th>Input</th>
+    <th>Expected Output</th>
+    <th>Actual Output</th>
+    <th>Status</th>
+  </tr>
+  <tr>
+    <td>QR-01</td>
+    <td>POST /add_query {FarmerID:&lt;me&gt;, title:'Pest issue', crop_type:&lt;id&gt;, description:'...'}</td>
+    <td>200 OK, {"message":"Query added successfully"}</td>
+    <td>200 OK, {"message":"Query added successfully"}</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>QR-02</td>
+    <td>GET /get_queries</td>
+    <td>200 OK, includes responses_count</td>
+    <td>200 OK, responses_count present</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>QR-03</td>
+    <td>UI: Toggle “View N responses”</td>
+    <td>Inline responses open/close; button text toggles</td>
+    <td>Works; text toggles</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>QR-04</td>
+    <td>POST /add_response {QueryID:&lt;id&gt;, ResponderID:&lt;other&gt;, response_text:'...'} </td>
+    <td>200 OK, {"message":"Response added successfully"}; visible inline</td>
+    <td>200 OK; visible inline</td>
+    <td>Pass</td>
+  </tr>
+</table>
+</div>
+
+<div class="section">
+<h2>Response Likes</h2>
+<table>
+  <tr>
+    <th>Test Case ID</th>
+    <th>Input</th>
+    <th>Expected Output</th>
+    <th>Actual Output</th>
+    <th>Status</th>
+  </tr>
+  <tr>
+    <td>LK-01</td>
+    <td>POST /toggle_like {ResponseID:&lt;id&gt;, FarmerID:&lt;me&gt;} (first click)</td>
+    <td>{"liked": true}; response votes +1</td>
+    <td>{"liked": true}; response votes +1</td>
+    <td>Pass</td>
+  </tr>
+  <tr>
+    <td>LK-02</td>
+    <td>POST /toggle_like {ResponseID:&lt;id&gt;, FarmerID:&lt;me&gt;} (second click)</td>
+    <td>{"liked": false}; response votes -1</td>
+    <td>{"liked": false}; response votes -1</td>
+    <td>Pass</td>
+  </tr>
+</table>
+</div>
+
+</body>
+</html>
