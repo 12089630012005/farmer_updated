@@ -136,16 +136,22 @@ def is_allowed_audio_filename(filename: str) -> bool:
     return ext in ALLOWED_AUDIO_EXTENSIONS
 
 # ------------------ DB Connection ------------------
+def get_db_config():
+    """Read DB config from environment (for Docker/production). Fallbacks for local dev."""
+    return {
+        "host": os.environ.get("MYSQL_HOST", "127.0.0.1"),
+        "user": os.environ.get("MYSQL_USER", "root"),
+        "password": os.environ.get("MYSQL_PASSWORD", ""),
+        "database": os.environ.get("MYSQL_DATABASE", "farmer_updated"),
+        "charset": "utf8mb4",
+        "collation": "utf8mb4_unicode_ci",
+        "use_unicode": True,
+    }
+
+
 def get_db_connection():
-    conn = mysql.connector.connect(
-        host="127.0.0.1",
-        user="root",          # your MySQL user
-        password="Nikki@3001",  # your MySQL password
-        database="farmer_updated",    # your DB schema
-        charset='utf8mb4',
-        collation='utf8mb4_unicode_ci',
-        use_unicode=True
-    )
+    cfg = get_db_config()
+    conn = mysql.connector.connect(**cfg)
     return conn
 
 

@@ -17,9 +17,8 @@ pipeline {
         stage('Deploy Container') {
             steps {
                 sh '''
-                docker stop farmer-app || true
-                docker rm farmer-app || true
-                docker run -d -p 80:3000 --name farmer-app farmer-app
+                docker compose down || true
+                docker compose up -d --build
                 '''
             }
         }

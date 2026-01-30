@@ -70,9 +70,19 @@ If the job runs under a user that has a weird home or workspace path:
 
 ## After the pipeline runs
 
-- The Jenkinsfile builds the image as `farmer-app` and runs it with host port **80** mapped to container port **3000**.
+- The pipeline uses **docker-compose**: it starts **MySQL** and the **Flask app** together. The app connects to MySQL using env vars (`MYSQL_HOST=mysql`, etc.).
 - App URL: `http://<your-vm-public-ip>/` (or `http://mrtlife-devops-vm1` if you use that hostname).
 - Ensure Azure NSG allows inbound **80** (and **8080** for Jenkins if needed).
+
+## Database (MySQL)
+
+- **In Docker**: The Jenkinsfile runs `docker compose up -d --build`, which starts MySQL and the app. The database `farmer_updated` and tables are created on first run from `schema.sql` (mounted into MySQL’s init folder).
+- **DB config**: The app reads from environment variables (no hardcoded credentials):
+  - `MYSQL_HOST` (default `127.0.0.1`; in Docker use `mysql`)
+  - `MYSQL_USER` (default `root`)
+  - `MYSQL_PASSWORD` (set in compose or `.env`)
+  - `MYSQL_DATABASE` (default `farmer_updated`)
+- **Custom password**: Copy `.env.example` to `.env` and set `MYSQL_ROOT_PASSWORD`. Use the same value in the app container (docker-compose passes it). For production, use a strong password and do not commit `.env`.
 
 ---
 
