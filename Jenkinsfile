@@ -2,6 +2,12 @@ pipeline {
     agent any
 
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t farmer-app .'
@@ -13,7 +19,7 @@ pipeline {
                 sh '''
                 docker stop farmer-app || true
                 docker rm farmer-app || true
-                docker run -d -p 80:80 --name farmer-app farmer-app
+                docker run -d -p 80:3000 --name farmer-app farmer-app
                 '''
             }
         }
