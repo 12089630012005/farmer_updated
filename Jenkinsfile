@@ -11,6 +11,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t farmer-app .'
+                sh 'docker build -f Dockerfile.mysql -t farmer-mysql .'
             }
         }
 
@@ -25,14 +26,13 @@ pipeline {
                 docker stop farmer-mysql farmer-app 2>/dev/null || true
                 docker rm farmer-mysql farmer-app 2>/dev/null || true
 
-                # Start MySQL (schema.sql runs on first start via init volume)
+                # Start MySQL (schema.sql is inside farmer-mysql image, runs on first init)
                 docker run -d --name farmer-mysql --network farmer-net \\
                   -e MYSQL_ROOT_PASSWORD='Nikki@3001' \\
                   -e MYSQL_DATABASE=farmer_updated \\
                   -v farmer-mysql-data:/var/lib/mysql \\
-                  -v $(pwd)/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro \\
                   -p 3306:3306 \\
-                  mysql:8.0
+                  farmer-mysql
 
                 # Wait for MySQL to accept connections
                 echo "Waiting for MySQL..."

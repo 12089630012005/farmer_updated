@@ -1,0 +1,3 @@
+# MySQL image with schema.sql baked in (avoids mount path issues when Jenkins runs in Docker)
+FROM mysql:8.0
+COPY schema.sql /docker-entrypoint-initdb.d/schema.sql
