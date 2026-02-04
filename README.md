@@ -18,6 +18,7 @@ A full-stack web app to help farmers connect, manage equipment lending, share qu
 - Frontend: Vanilla HTML/CSS/JS (`templates/index.html`)
 - Auth: Firebase Web SDK (compat)
 - Icons/Fonts: Font Awesome, Google Fonts
+- docker and jenkins for deployement 
 
 ## Project Structure
 
